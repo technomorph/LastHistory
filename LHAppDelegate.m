@@ -17,18 +17,12 @@
 #define LF_DEFAULTS_USER_NAME @"LFUserName"
 #define LF_DEFAULTS_SESSION_KEY @"LFSessionKey"
 
-@interface LHAppDelegate ()
-
-@property (assign) LFWebService* lfWebServices;
-
-@end
-
 
 @implementation LHAppDelegate
 
 @synthesize busy;
 @synthesize launchDate;
-@synthesize lfWebServices;
+//@synthesize lfWebService;
 
 @synthesize welcomeWindow;
 @synthesize usernameField;

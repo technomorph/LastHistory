@@ -8,9 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 #import <CalendarStore/CalendarStore.h>
+#import <EventKit/EventKit.h>
 
 #import "LHEvent.h"
 
 // make CalEvent conform to the LHEvent protocol
 @interface CalEvent (LHEvent) <LHEvent>
 @end
+
+
+@interface EKEvent (LHEvent) <LHEvent>
+@end
+
+

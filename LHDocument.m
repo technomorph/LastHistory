@@ -67,6 +67,9 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 @synthesize currentOperation=_currentOperation;
 
 
+
+
+
 +(NSSet*)keyPathsForValuesAffectingHistoryEntriesCount
 {
 	return [NSSet setWithObject:@"historyEntries"];
@@ -656,13 +659,13 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 				NSInteger ordinality = [[token objectForKey:@"ordinality"] integerValue];
 				NSMutableArray *subpredicates = [NSMutableArray arrayWithCapacity:ordinality];
 				
-				NSUInteger index = [start integerValue]-1;
+				NSUInteger aIndex = [start integerValue]-1;
 				while (1) {
 					NSString *format = [NSString stringWithFormat:@"%@ = %%d", key];
-					[subpredicates addObject:[NSPredicate predicateWithFormat:format, index+1]];
-					if (index+1 == [end integerValue])
+					[subpredicates addObject:[NSPredicate predicateWithFormat:format, aIndex+1]];
+					if (aIndex+1 == [end integerValue])
 						break;
-					index = ++index % ordinality;
+					aIndex = ++aIndex % ordinality;
 				}
 				
 				NSPredicate *predicate = [NSCompoundPredicate orPredicateWithSubpredicates:subpredicates];
@@ -771,17 +774,17 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 {
 	if ([self.playlist count] > 0)
 		{
-		[NSApp beginSheet:playlistNameSheet
-		   modalForWindow:[self windowForSheet]
-			modalDelegate:self
-		   didEndSelector:nil
-			  contextInfo:nil];
+		[[NSApp mainWindow] beginSheet:playlistNameSheet completionHandler:^(NSModalResponse returnCode) {
+			if (returnCode == NSModalResponseOK) {
+				[self closePlaylistNameSheet:playlistNameSheet];
+			}
+		}];
 		}
 }
 
--(IBAction)closePlaylistNameSheet:(id)sender
-{
-	if ([sender tag] == 1)
+-(IBAction)closePlaylistNameSheet:(id)sender {
+	NSView* aView = sender;
+	if ([aView tag] == 1)
 		{
 		NSString *playlistName = [playlistNameField stringValue];
 		if ([playlistName length] > 0)
@@ -800,7 +803,10 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 			}
 		else
 			{
-			NSRunAlertPanel(@"Invalid playlist name", @"Please enter a valid playlist name", nil, nil, nil);
+			NSAlert* aAlert = [NSAlert new];
+			[aAlert setMessageText:@"Invalid Playlist Name"];
+			[aAlert setInformativeText:@"Please enter a valid playlist name"];
+			[aAlert runModal];
 			return;
 			}
 		}
@@ -902,9 +908,9 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	}
 }
 
--(IBAction)closeUsernameSheet:(id)sender
-{
-	if ([sender tag] == 1)
+-(IBAction)closeUsernameSheet:(id)sender {
+	NSView* aView = sender;
+	if ([aView tag] == 1)
 		{
 		NSString *username = [usernameField stringValue];
 		if ([username length] > 0) {

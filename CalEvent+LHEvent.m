@@ -18,3 +18,13 @@
 -(NSInteger)eventEndTime {return LH_EVENT_TIME_UNDEFINED;}
 
 @end
+
+@implementation EKEvent (LHEvent)
+
+-(NSDate*)eventStart {return self.startDate;}
+-(NSDate*)eventEnd {return self.endDate;}
+
+-(NSInteger)eventStartTime {return LH_EVENT_TIME_UNDEFINED;}
+-(NSInteger)eventEndTime {return LH_EVENT_TIME_UNDEFINED;}
+
+@end

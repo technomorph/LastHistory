@@ -7,12 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
 @class LHiPhotoRoll;
 
 
-@interface LHEventViewerLayer : CALayer {
+@interface LHEventViewerLayer : CALayer <CALayerDelegate> {
 	LHiPhotoRoll *_photoRoll;
 	NSInteger _photoRollIndex;
 	

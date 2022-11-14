@@ -7,6 +7,7 @@
 	//
 
 #import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import "LHEvent.h"
 
@@ -21,6 +22,13 @@ extern NSString *LHDocumentDidCloseNotification;
 
 @interface LHDocument : NSPersistentDocument <NSSoundDelegate>
 {
+	
+	IBOutlet NSTokenField* searchField;
+	IBOutlet NSWindow* usernameSheet;
+	IBOutlet NSTextField* usernameField;
+	IBOutlet NSWindow* playlistNameSheet;
+	IBOutlet NSTextField* playlistNameField;
+	
 	NSArray *_cachedHistoryEntries;
 	NSUInteger _hiddenHistoryEntriesCount;
 	NSUInteger _hiddenTracksCount;
@@ -31,15 +39,15 @@ extern NSString *LHDocumentDidCloseNotification;
 	NSSound *_currentSound;
 	BOOL _currentSoundIsPaused;
 	
+	LHHistoryEntry *_firstHistoryEntry;
+	LHHistoryEntry *_lastHistoryEntry;
+	
 	NSOperationQueue *_queue;
 }
 
 @property (readonly) IBOutlet LHHistoryView *historyView;
-@property (readonly) IBOutlet NSTokenField* searchField;
-@property (readonly) IBOutlet NSWindow* usernameSheet;
-@property (readonly) IBOutlet NSTextField* usernameField;
-@property (readonly) IBOutlet NSWindow* playlistNameSheet;
-@property (readonly) IBOutlet NSTextField* playlistNameField;
+
+
 
 
 @property (assign) int operationMode;

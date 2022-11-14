@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
+#import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
 

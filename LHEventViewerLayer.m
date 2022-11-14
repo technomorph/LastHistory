@@ -7,7 +7,6 @@
 //
 
 #import "LHEventViewerLayer.h"
-
 #import "LHiPhotoRoll.h"
 #import "NSImage-Extras.h"
 
@@ -225,7 +224,7 @@
 	self.photoRollIndex++;
 	
 	// collect image references after animation
-	[[NSGarbageCollector defaultCollector] performSelector:@selector(collectExhaustively)
+	[self performSelector:@selector(collectExhaustively)
 												withObject:nil
 												afterDelay:PLAY_TIMER_INTERVAL/2];
 }

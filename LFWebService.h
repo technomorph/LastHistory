@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 
 extern NSString *LFWebServiceErrorDomain;
 
@@ -21,12 +22,6 @@ extern NSString *LFWebServiceErrorDomain;
 	NSString *_token; // used during authorization
 }
 
--(id)initWithApiKey:(NSString*)apiKey secret:(NSString*)secret;
--(id)initWithApiKey:(NSString*)apiKey
-			  secret:(NSString*)secret
-			userName:(NSString*)userName
-		  sessionKey:(NSString*)sessionKey;
-
 @property (readonly, copy) NSString *apiKey;
 @property (readonly, copy) NSString *secret;
 
@@ -34,6 +29,15 @@ extern NSString *LFWebServiceErrorDomain;
 @property (readonly, copy) NSString *sessionKey;
 
 @property (readonly) BOOL isAuthenticated;
+
+
+-(id)initWithApiKey:(NSString*)apiKey secret:(NSString*)secret;
+-(id)initWithApiKey:(NSString*)apiKey
+			  secret:(NSString*)secret
+			userName:(NSString*)userName
+		  sessionKey:(NSString*)sessionKey;
+
+
 
 -(NSString*)authenticateGetToken;
 -(NSURL*)authenticateGetAuthorizationURL;
