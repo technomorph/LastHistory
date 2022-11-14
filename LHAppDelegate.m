@@ -11,25 +11,29 @@
 #import "LFWebService.h"
 
 
-#define SURVEY_ASK				1
-#define SURVEY_MIN_USAGE_TIME	10*60 // seconds
-#define SURVEY_URL				@"http://www.frederikseiffert.de/lasthistory/survey"
-#define SURVEY_ASKED_DEFAULT	@"SurveyAsked"
-
-#define WEBSITE_URL				@"http://www.frederikseiffert.de/lasthistory"
-
 #define LF_API_KEY @"fbc78d2f82dbb5f20ce6dff0dad331f1"
 #define LF_SECRET @"4aa601de9f102d69361eeacd4c9632c7"
 
 #define LF_DEFAULTS_USER_NAME @"LFUserName"
 #define LF_DEFAULTS_SESSION_KEY @"LFSessionKey"
 
+@interface LHAppDelegate ()
+
+@property (assign) LFWebService* lfWebServices;
+
+@end
+
 
 @implementation LHAppDelegate
 
 @synthesize busy;
 @synthesize launchDate;
-@synthesize lfWebService;
+@synthesize lfWebServices;
+
+@synthesize welcomeWindow;
+@synthesize usernameField;
+@synthesize recentDocumentsButton;
+
 
 -(void)applicationWillFinishLaunching:(NSNotification*)aNotification
 {
@@ -70,15 +74,15 @@
 }
 #endif
 
--(IBAction)openSurvey:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:SURVEY_URL]];
-}
-
--(IBAction)openWebsite:(id)sender
-{
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:WEBSITE_URL]];
-}
+//-(IBAction)openSurvey:(id)sender
+//{
+//	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:SURVEY_URL]];
+//}
+//
+//-(IBAction)openWebsite:(id)sender
+//{
+//	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:WEBSITE_URL]];
+//}
 
 
 -(NSMenu*)recentDocumentsMenu
@@ -230,15 +234,15 @@ fail:
 
 -(LFWebService*)lfWebService
 {
-	if (!self.lfWebService) {
+	if (!_lfWebService) {
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		self.lfWebService = [[LFWebService alloc] initWithApiKey:LF_API_KEY
+		_lfWebService = [[LFWebService alloc] initWithApiKey:LF_API_KEY
 													  secret:LF_SECRET
 													userName:[defaults stringForKey:LF_DEFAULTS_USER_NAME]
 												  sessionKey:[defaults stringForKey:LF_DEFAULTS_SESSION_KEY]];
 	}
 	
-	return self.lfWebService;
+	return _lfWebService;
 }
 
 -(BOOL)lfCheckUsername:(NSString*)username error:(NSError **)outError

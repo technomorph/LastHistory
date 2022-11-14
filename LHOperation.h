@@ -1,26 +1,26 @@
-//
-//  LHOperation.h
-//  LastHistory
-//
-//  Created by Frederik Seiffert on 20.11.09.
-//  Copyright 2009 Frederik Seiffert. All rights reserved.
-//
+	//
+	//  LHOperation.h
+	//  LastHistory
+	//
+	//  Created by Frederik Seiffert on 20.11.09.
+	//  Copyright 2009 Frederik Seiffert. All rights reserved.
+	//
 
 #import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 
 @class LHDocument;
 
-
 @interface LHOperation : NSOperation {
-	LHDocument __weak *_document;
 	NSManagedObjectContext *_context;
-	
-	NSString *_progressMessage;
+	LHDocument* _document;
+	NSString* _progressMessage;
 	float _progress;
 	BOOL _progressIndeterminate;
 }
 
-@property (readonly) LHDocument __weak *document;
+@property (readonly) LHDocument* document;
 @property (readonly) NSManagedObjectContext *context;
 
 @property (retain) NSString *progressMessage;

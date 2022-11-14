@@ -7,12 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import "LHOperation.h"
 
 
 @interface LHTagRetrievalOperation : LHOperation {
-	NSEntityDescription	*_tagEntity;
-	NSEntityDescription	*_trackTagEntity;
+	NSEntityDescription* _tagEntity;
+	NSEntityDescription* _trackTagEntity;
 }
+
 @end

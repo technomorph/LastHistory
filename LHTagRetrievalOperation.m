@@ -17,7 +17,6 @@
 
 
 #define PROCESS_CHUNK_SIZE 10
-
 #define TAG_MIN_COUNT 10
 
 

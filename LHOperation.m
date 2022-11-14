@@ -1,13 +1,12 @@
-//
-//  LHOperation.m
-//  LastHistory
-//
-//  Created by Frederik Seiffert on 20.11.09.
-//  Copyright 2009 Frederik Seiffert. All rights reserved.
-//
+	//
+	//  LHOperation.m
+	//  LastHistory
+	//
+	//  Created by Frederik Seiffert on 20.11.09.
+	//  Copyright 2009 Frederik Seiffert. All rights reserved.
+	//
 
 #import "LHOperation.h"
-
 #import "LHDocument.h"
 
 
@@ -38,11 +37,11 @@
 -(NSManagedObjectContext*)context
 {
 	if (!_context)
-	{
-		// setup managed object context (note: this needs to happen on processing thread!)
+		{
+			// setup managed object context (note: this needs to happen on processing thread!)
 		NSAssert(![NSThread isMainThread], @"NSOperation MOC created on main thread");
 		
-		_context = [[NSManagedObjectContext alloc] init];
+		_context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
 		[_context setPersistentStoreCoordinator:[[self.document managedObjectContext] persistentStoreCoordinator]];
 		[_context setUndoManager:nil];
 		
@@ -50,13 +49,12 @@
 												 selector:@selector(contextDidChange:)
 													 name:NSManagedObjectContextDidSaveNotification
 												   object:_context];
-	}
+		}
 	
 	return _context;
 }
 
--(void)finalize
-{
+-(void)finalize {
 	[self removeObserver:self forKeyPath:@"isExecuting"];
 	[self removeObserver:self forKeyPath:@"isFinished"];
 	
@@ -66,19 +64,19 @@
 -(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
 	if ([keyPath isEqualToString:@"isExecuting"] || [keyPath isEqualToString:@"isFinished"])
-	{
+		{
 		[self.document performSelectorOnMainThread:@selector(updateOperation:)
 										withObject:self
 									 waitUntilDone:NO];
-	}
+		}
 }
 
 -(void)contextDidChange:(NSNotification*)notification 
 {
-	// merge changes with document context
-	[_document performSelectorOnMainThread:@selector(mergeChanges:)
-								withObject:notification
-							 waitUntilDone:NO];
+		// merge changes with document context
+	[self.document performSelectorOnMainThread:@selector(mergeChanges:)
+									withObject:notification
+								 waitUntilDone:NO];
 }
 
 -(BOOL)saveContext
@@ -93,7 +91,7 @@
 
 -(void)process
 {
-	// perform task
+		// perform task
 }
 
 -(void)main

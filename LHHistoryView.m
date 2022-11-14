@@ -49,6 +49,7 @@
 
 
 @interface LHHistoryView ()
+
 -(void)setCurrentEvent:(id <LHEvent, NSObject>)event;
 
 -(void)setupStreams;
@@ -56,6 +57,7 @@
 -(void)generateLabels;
 -(void)repositionCurrentEventLayer;
 -(NSAttributedString*)infoStringForLayerData:(id)data;
+
 @end
 
 

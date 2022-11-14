@@ -75,7 +75,7 @@ enum {
 @property (assign) BOOL flipTimeline;
 @property (assign) BOOL showReferenceStreams;
 
-@property (nonatomic, assign) id <LHEvent> highlignonatomic, htedEvent;
+@property (nonatomic, assign) id<LHEvent> highlightedEvent;
 @property (nonatomic, assign) CALayer *mouseOverLayer;
 
 @property (readonly) NSDate *timelineStart;
