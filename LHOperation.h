@@ -27,8 +27,8 @@
 @property (assign) float progress;
 @property (assign) BOOL progressIndeterminate;
 
-- (id)initWithDocument:(LHDocument *)document;
+-(id)initWithDocument:(LHDocument*)document;
 
-- (BOOL)saveContext;
+-(BOOL)saveContext;
 
 @end

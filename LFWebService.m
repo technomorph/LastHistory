@@ -26,10 +26,10 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 @end
 
 @interface LFWebService (LFPrivateAPI)
-- (NSXMLDocument *)callMethod:(NSString *)methodName withParameters:(NSDictionary *)params authenticated:(BOOL)auth error:(NSError **)outError;
-- (NSString *)apiSignatureForParameters:(NSDictionary *)params;
-- (NSString *)stringFromParameters:(NSDictionary *)params;
-- (NSString *)urlEncodeValue:(NSString *)value;
+-(NSXMLDocument*)callMethod:(NSString*)methodName withParameters:(NSDictionary*)params authenticated:(BOOL)auth error:(NSError **)outError;
+-(NSString*)apiSignatureForParameters:(NSDictionary*)params;
+-(NSString*)stringFromParameters:(NSDictionary*)params;
+-(NSString*)urlEncodeValue:(NSString*)value;
 @end
 
 @implementation LFWebService
@@ -40,15 +40,15 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 @synthesize userName=_userName;
 @synthesize sessionKey=_sessionKey;
 
-- (id)initWithApiKey:(NSString *)apiKey secret:(NSString *)secret
+-(id)initWithApiKey:(NSString*)apiKey secret:(NSString*)secret
 {
 	return [self initWithApiKey:apiKey secret:secret userName:nil sessionKey:nil];
 }
 
-- (id)initWithApiKey:(NSString *)apiKey
-			  secret:(NSString *)secret
-			userName:(NSString *)userName
-		  sessionKey:(NSString *)sessionKey
+-(id)initWithApiKey:(NSString*)apiKey
+			  secret:(NSString*)secret
+			userName:(NSString*)userName
+		  sessionKey:(NSString*)sessionKey
 {
 	self = [super init];
 	if (self != nil) {
@@ -60,7 +60,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 	return self;
 }
 
-- (void)dealloc
+-(void)dealloc
 {
 	[_apiKey release];
 	[_secret release];
@@ -72,14 +72,14 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 	[super dealloc];
 }
 
-- (BOOL)isAuthenticated
+-(BOOL)isAuthenticated
 {
 	return self.userName.length != 0 && self.sessionKey.length != 0;
 }
 
-- (NSString *)authenticateGetToken
+-(NSString*)authenticateGetToken
 {
-	[_token release], _token = nil;
+	(void)([_token release]), _token = nil;
 	
 	NSXMLDocument *xml = [self callMethod:@"auth.getToken" withParameters:nil error:nil];
 	if (!xml)
@@ -95,7 +95,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 	return _token;
 }
 
-- (NSURL *)authenticateGetAuthorizationURL
+-(NSURL*)authenticateGetAuthorizationURL
 {
 	NSString *token = [self authenticateGetToken];
 	if (!token)
@@ -105,7 +105,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 	return [NSURL URLWithString:urlStr];
 }
 
-- (BOOL)authenticateFinish
+-(BOOL)authenticateFinish
 {
 	// we need a token for auth.getSession
 	if (!_token)
@@ -133,20 +133,20 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 		self.sessionKey = [keyElement stringValue];
 		
 		// no need for token any more
-		[_token release], _token = nil;
+		(void)([_token release]), _token = nil;
 		return YES;
 	}
 	
 	return NO;
 }
 
-- (NSXMLDocument *)callMethod:(NSString *)methodName withParameters:(NSDictionary *)params error:(NSError **)outError
+-(NSXMLDocument*)callMethod:(NSString*)methodName withParameters:(NSDictionary*)params error:(NSError **)outError
 {
 	return [self callMethod:methodName withParameters:params authenticated:NO error:outError];
 }
 
 
-- (NSXMLDocument *)callAuthenticatedMethod:(NSString *)methodName withParameters:(NSDictionary *)params error:(NSError **)outError
+-(NSXMLDocument*)callAuthenticatedMethod:(NSString*)methodName withParameters:(NSDictionary*)params error:(NSError **)outError
 {
 	return [self callMethod:methodName withParameters:params authenticated:YES error:outError];
 }
@@ -156,7 +156,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 
 @implementation LFWebService (LFPrivateAPI)
 
-- (NSXMLDocument *)callMethod:(NSString *)methodName withParameters:(NSDictionary *)params authenticated:(BOOL)auth error:(NSError **)outError
+-(NSXMLDocument*)callMethod:(NSString*)methodName withParameters:(NSDictionary*)params authenticated:(BOOL)auth error:(NSError **)outError
 {
 	if (auth && !self.sessionKey) {
 		NSLog(@"Error: no session key for authenticated call");
@@ -201,7 +201,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 			error = [NSError errorWithDomain:LFWebServiceErrorDomain code:[response statusCode] userInfo:errorUserInfo];
 		}
 		
-		NSLog(@"Error retrieving data: %@ (%d)", [error localizedDescription], [error code]);
+		NSLog(@"Error retrieving data: %@ (%ld)", [error localizedDescription], (long)[error code]);
 		if (outError)
 			*outError = error;
 		return nil;
@@ -223,7 +223,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 																error:&error] autorelease];
 	[responseStr release];
 	if (!result) {
-		NSLog(@"Error in XML: %@ (%d)", [error localizedDescription], [error code]);
+		NSLog(@"Error in XML: %@ (%ld)", [error localizedDescription], (long)[error code]);
 		NSLog(@"Response:\n%@", responseStr);
 		if (outError)
 			*outError = error;
@@ -238,7 +238,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 			NSXMLElement *errorElement = [[rootElement elementsForName:@"error"] lastObject];
 			NSInteger errorCode = [[[errorElement attributeForName:@"code"] stringValue] integerValue];
 			NSString *errorDesc = [errorElement stringValue];
-			NSLog(@"Error from Last.fm: %@ (%d)", errorDesc, errorCode);
+		NSLog(@"Error from Last.fm: %@ (%ld)", errorDesc, (long)errorCode);
 			
 			NSDictionary *errorUserInfo = [NSDictionary dictionaryWithObjectsAndKeys:errorDesc, NSLocalizedDescriptionKey, nil];
 			NSError *error = [NSError errorWithDomain:LFWebServiceErrorDomain code:errorCode userInfo:errorUserInfo];
@@ -261,7 +261,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 	return result;
 }
 
-- (NSString *)apiSignatureForParameters:(NSDictionary *)params
+-(NSString*)apiSignatureForParameters:(NSDictionary*)params
 {
 	NSMutableString *signatureStr = [NSMutableString string];
 	for (NSString *key in [[params allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
@@ -274,7 +274,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 	return [signatureStr md5];
 }
 
-- (NSString *)stringFromParameters:(NSDictionary *)params
+-(NSString*)stringFromParameters:(NSDictionary*)params
 {
 	NSMutableString *paramsStr = [NSMutableString string];
 	for (NSString *key in [params allKeys]) {
@@ -288,7 +288,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 	return paramsStr;
 }
 
-- (NSString *)urlEncodeValue:(NSString *)value
+-(NSString*)urlEncodeValue:(NSString*)value
 {
 	CFStringRef result = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
 																 (CFStringRef)value,
@@ -297,7 +297,7 @@ NSString *LFWebServiceErrorDomain = @"LFWebServiceErrorDomain";
 																 kCFStringEncodingUTF8);
 	if (result)
 		CFMakeCollectable(result);
-	return [(NSString *)result autorelease];
+	return [(NSString*)result autorelease];
 }
 
 @end

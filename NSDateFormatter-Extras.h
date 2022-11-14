@@ -11,7 +11,7 @@
 
 @interface NSDateFormatter (Extras)
 
-- (NSUInteger)weekdayForString:(NSString *)token;
-- (NSUInteger)monthForString:(NSString *)token;
+-(NSUInteger)weekdayForString:(NSString*)token;
+-(NSUInteger)monthForString:(NSString*)token;
 
 @end

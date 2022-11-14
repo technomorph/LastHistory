@@ -11,29 +11,29 @@
 @end
 
 @interface _LHTrackTag : NSManagedObject {}
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (LHTrackTagID*)objectID;
++(id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
+-(LHTrackTagID*)objectID;
 
 
 
 @property (nonatomic, retain) NSNumber *count;
 
 @property short countValue;
-- (short)countValue;
-- (void)setCountValue:(short)value_;
+-(short)countValue;
+-(void)setCountValue:(short)value_;
 
-//- (BOOL)validateCount:(id*)value_ error:(NSError**)error_;
+//-(BOOL)validateCount:(id*)value_ error:(NSError**)error_;
 
 
 
 
 @property (nonatomic, retain) LHTrack* track;
-//- (BOOL)validateTrack:(id*)value_ error:(NSError**)error_;
+//-(BOOL)validateTrack:(id*)value_ error:(NSError**)error_;
 
 
 
 @property (nonatomic, retain) LHTag* tag;
-//- (BOOL)validateTag:(id*)value_ error:(NSError**)error_;
+//-(BOOL)validateTag:(id*)value_ error:(NSError**)error_;
 
 
 

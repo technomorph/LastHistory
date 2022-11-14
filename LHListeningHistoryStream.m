@@ -32,9 +32,9 @@
 @interface LHListeningHistoryStream ()
 
 // Utilities
-- (CGPoint)nodePositionForHistoryEntry:(LHHistoryEntry *)historyEntry;
-- (id)nodeContentsForLabel:(NSString *)label;
-- (void)weightNode:(LHHistoryEntry *)historyEntry;
+-(CGPoint)nodePositionForHistoryEntry:(LHHistoryEntry*)historyEntry;
+-(id)nodeContentsForLabel:(NSString*)label;
+-(void)weightNode:(LHHistoryEntry*)historyEntry;
 
 @end
 
@@ -42,12 +42,12 @@
 
 @implementation LHListeningHistoryStream
 
-+ (Class)nodeClass
++(Class)nodeClass
 {
 	return [LHHistoryEntry class];
 }
 
-+ (id <CAAction>)defaultActionForKey:(NSString *)key
++(id <CAAction>)defaultActionForKey:(NSString*)key
 {
 	// prevent default animation for contents to speed up display
 	if ([key isEqualToString:@"contents"])
@@ -56,7 +56,7 @@
 	return [super defaultActionForKey:key];
 }
 
-- (id)initWithLayer:(id)layer
+-(id)initWithLayer:(id)layer
 {
 	self = [super initWithLayer:layer];
 	if (self != nil) {
@@ -68,7 +68,7 @@
 	return self;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+-(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
 	if ([keyPath isEqualToString:@"showHistoryEntryWeights"] || [keyPath isEqualToString:@"nodeScaleFactor"])
 	{
@@ -121,7 +121,7 @@
 	}
 }
 
-- (void)setupLayer
+-(void)setupLayer
 {
 	self.anchorPoint = CGPointMake(0, 0); // lower-left corner
 	self.bounds = CGRectMake(0, 0, 1.0, 1.0);
@@ -132,7 +132,7 @@
 	[self.view.document addObserver:self forKeyPath:@"currentHistoryEntry" options:(NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew) context:NULL];
 }
 
-- (void)generateNodes
+-(void)generateNodes
 {
 	[self removeAllSublayers];
 	
@@ -147,13 +147,13 @@
 		[self insertObject:historyEntry];
 		
 		if ((++processedCount % 5000) == 0)
-			NSLog(@"Processed %u history entry nodes", processedCount);
+			NSLog(@"Processed %lu history entry nodes", (unsigned long)processedCount);
 	}
 	
-	NSLog(@"Generated %u history entry nodes", processedCount);
+	NSLog(@"Generated %lu history entry nodes", (unsigned long)processedCount);
 }
 
-- (void)layoutSublayers
+-(void)layoutSublayers
 {
 	if (self.superlayer.isHidden)
 		return;
@@ -172,7 +172,7 @@
 	}
 }
 
-- (void)weightNodes
+-(void)weightNodes
 {
 	NSLog(@"Weighting history entry nodes...");
 	
@@ -183,7 +183,7 @@
 	}
 }
 
-- (void)insertObject:(id)object
+-(void)insertObject:(id)object
 {
 	if ([object isKindOfClass:[LHHistoryEntry class]])
 	{
@@ -204,18 +204,18 @@
 	}
 }
 
-- (void)updateObject:(id)object
+-(void)updateObject:(id)object
 {
 	if ([object isKindOfClass:[LHTrack class]])
 	{
-		LHTrack *track = (LHTrack *)object;
+		LHTrack *track = (LHTrack*)object;
 		for (LHHistoryEntry *historyEntry in track.historyEntries) {
 			historyEntry.layer.contents = [self nodeContentsForLabel:track.genre];
 		}
 	}
 	else if ([object isKindOfClass:[LHHistoryEntry class]])
 	{
-		LHHistoryEntry *historyEntry = (LHHistoryEntry *)object;
+		LHHistoryEntry *historyEntry = (LHHistoryEntry*)object;
 		[self weightNode:historyEntry];
 	}
 }
@@ -225,7 +225,7 @@
 #pragma mark Highlighting
 
 // CALayer delegate
-- (void)drawInContext:(CGContextRef)ctx
+-(void)drawInContext:(CGContextRef)ctx
 {
 	[NSGraphicsContext saveGraphicsState];
 	[NSGraphicsContext setCurrentContext:[NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:NO]];
@@ -244,7 +244,7 @@
 }
 
 // helper method for setHighlightedHistoryEntry:
-- (void)addLineFrom:(LHHistoryEntry *)start to:(LHHistoryEntry *)end toPath:(NSBezierPath *)path
+-(void)addLineFrom:(LHHistoryEntry*)start to:(LHHistoryEntry*)end toPath:(NSBezierPath*)path
 {
 	NSPoint startPoint = NSPointFromCGPoint(start.layer.position);
 	NSPoint endPoint = NSPointFromCGPoint(end.layer.position);
@@ -260,10 +260,10 @@
 		 controlPoint2:NSMakePoint(endPoint.x + controlOffsetX * controlOffsetEndXFlip, endPoint.y - controlOffsetY)];
 }
 
-- (void)connectPlaylistEntries:(NSArray *)entries
-					withTracks:(NSArray *)playlist
-				toSimilarEntry:(LHHistoryEntry *)similarEntry
-				   inPlaylists:(NSArray *)playlists
+-(void)connectPlaylistEntries:(NSArray*)entries
+					withTracks:(NSArray*)playlist
+				toSimilarEntry:(LHHistoryEntry*)similarEntry
+				   inPlaylists:(NSArray*)playlists
 					 ascending:(BOOL)ascending
 {
 	NSArray *otherEntries = [similarEntry adjacentEntriesInPlaylists:playlists ascending:ascending];
@@ -291,7 +291,7 @@
 	//NSLog(@"=====");
 }
 
-- (void)setHighlightedNode:(CALayer *)newLayer
+-(void)setHighlightedNode:(CALayer*)newLayer
 {
 	if (_highlightedNode != newLayer)
 	{
@@ -385,7 +385,7 @@
 	}
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent onLayer:(CALayer *)hitLayer
+-(void)mouseMoved:(NSEvent*)theEvent onLayer:(CALayer*)hitLayer
 {
 	// ignore mouse-moved when shift key is pressed
 	if (!([theEvent modifierFlags] & NSShiftKeyMask))
@@ -408,14 +408,14 @@
 #pragma mark -
 #pragma mark Utilities
 
-- (CGPoint)nodePositionForHistoryEntry:(LHHistoryEntry *)historyEntry
+-(CGPoint)nodePositionForHistoryEntry:(LHHistoryEntry*)historyEntry
 {
 	CGFloat layerHeight = self.bounds.size.height - HISTORY_PADDING_Y*2;
 	CGFloat positionY = ((CGFloat)historyEntry.timeValue/SECONDS_PER_DAY) * layerHeight;
 	return CGPointMake([self.view xPositionForDate:historyEntry.day], layerHeight - positionY + HISTORY_PADDING_Y);
 }
 
-- (id)nodeContentsForLabel:(NSString *)label
+-(id)nodeContentsForLabel:(NSString*)label
 {
 	static NSArray *genreColors = nil;
 	if (!genreColors) {
@@ -466,7 +466,7 @@
 	return result;
 }
 
-- (void)weightNode:(LHHistoryEntry *)historyEntry
+-(void)weightNode:(LHHistoryEntry*)historyEntry
 {
 	float weightFactor = MAX(NODE_MIN_WEIGHT, MIN(NODE_MAX_WEIGHT, self.view.showHistoryEntryWeights ? [historyEntry weightValue] : NODE_BASE_WEIGHT));
 	weightFactor *= self.view.nodeScaleFactor;

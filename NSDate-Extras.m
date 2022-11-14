@@ -11,7 +11,7 @@
 
 @implementation NSDate (Extras)
 
-- (NSDate *)day
+-(NSDate*)day
 {
 	NSCalendar *calendar = [NSCalendar currentCalendar];
 	NSDateComponents *comps = [calendar components:(NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit)
@@ -19,25 +19,25 @@
 	return [calendar dateFromComponents:comps];
 }
 
-- (NSInteger)year
+-(NSInteger)year
 {
 	NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:self];
 	return [comps year];
 }
 
-- (NSInteger)month
+-(NSInteger)month
 {
 	NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSMonthCalendarUnit fromDate:self];
 	return [comps month];
 }
 
-- (NSInteger)hour
+-(NSInteger)hour
 {
 	NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSHourCalendarUnit fromDate:self];
 	return [comps hour];
 }
 
-- (NSInteger)weekday
+-(NSInteger)weekday
 {
 	NSDateComponents *comps = [[NSCalendar currentCalendar] components:NSWeekdayCalendarUnit fromDate:self];
 	return [comps weekday];

@@ -10,6 +10,6 @@ CGImageRef CreateCGImageFromData(NSData* data);
 
 @interface NSImage (Extras)
 
-- (CGImageRef)cgImage;
+-(CGImageRef)cgImage;
 
 @end

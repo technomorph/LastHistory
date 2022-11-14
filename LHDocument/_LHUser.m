@@ -8,12 +8,12 @@
 
 @implementation _LHUser
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++(id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:moc_];
 }
 
-- (LHUserID*)objectID {
+-(LHUserID*)objectID {
 	return (LHUserID*)[super objectID];
 }
 
@@ -30,7 +30,7 @@
 @dynamic historyEntries;
 
 	
-- (NSMutableSet*)historyEntriesSet {
+-(NSMutableSet*)historyEntriesSet {
 	[self willAccessValueForKey:@"historyEntries"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"historyEntries"];
 	[self didAccessValueForKey:@"historyEntries"];
@@ -41,7 +41,7 @@
 
 
 
-+ (NSArray*)fetchUsersWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ {
++(NSArray*)fetchUsersWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ {
 	NSError *error = nil;
 	NSArray *result = [self fetchUsersWithName:moc_ name:name_ error:&error];
 	if (error) {
@@ -53,7 +53,7 @@
 	}
 	return result;
 }
-+ (NSArray*)fetchUsersWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ error:(NSError**)error_ {
++(NSArray*)fetchUsersWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ error:(NSError**)error_ {
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];

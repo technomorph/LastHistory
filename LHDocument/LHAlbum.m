@@ -2,12 +2,12 @@
 
 @implementation LHAlbum
 
-+ (NSSet *)keyPathsForValuesAffectingImage
++(NSSet*)keyPathsForValuesAffectingImage
 {
 	return [NSSet setWithObject:@"imagePath"];
 }
 
-- (NSImage *)image
+-(NSImage*)image
 {
 	return [[[NSImage alloc] initByReferencingURL:[NSURL URLWithString:self.imagePath]] autorelease];
 }

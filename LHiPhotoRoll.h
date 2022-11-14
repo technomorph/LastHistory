@@ -26,7 +26,7 @@
 	NSArray __weak *_photos; // garbage-collected cache
 }
 
-- (id)initWithDictionary:(NSDictionary *)rollDict forLibrary:(LHiPhotoLibrary *)library;
+-(id)initWithDictionary:(NSDictionary*)rollDict forLibrary:(LHiPhotoLibrary*)library;
 
 @property (readonly) LHiPhotoLibrary __weak *library;
 

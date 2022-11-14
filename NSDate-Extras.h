@@ -11,10 +11,10 @@
 
 @interface NSDate (Extras)
 
-- (NSDate *)day;
-- (NSInteger)year;
-- (NSInteger)month;
-- (NSInteger)hour;
-- (NSInteger)weekday;
+-(NSDate*)day;
+-(NSInteger)year;
+-(NSInteger)month;
+-(NSInteger)hour;
+-(NSInteger)weekday;
 
 @end

@@ -23,9 +23,9 @@
 	NSMutableSet *_playlistNodes;
 }
 
-- (void)weightNodes;
+-(void)weightNodes;
 
-- (void)insertObject:(id)object;
-- (void)updateObject:(id)object;
+-(void)insertObject:(id)object;
+-(void)updateObject:(id)object;
 
 @end

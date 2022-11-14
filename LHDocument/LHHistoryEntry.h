@@ -2,7 +2,7 @@
 
 
 @interface LHHistoryEntry : _LHHistoryEntry {
-	CALayer __weak *layer;
+	//CALayer __weak *layer;
 	BOOL hidden;
 	
 	// cached values
@@ -19,10 +19,10 @@
 
 @property (readonly) NSAttributedString *attributedDisplayName;
 
-- (NSArray *)adjacentEntries:(NSUInteger)numEntries ascending:(BOOL)ascending;
+-(NSArray*)adjacentEntries:(NSUInteger)numEntries ascending:(BOOL)ascending;
 
-- (NSArray *)playlists;
-- (NSArray *)adjacentEntriesInPlaylists:(NSArray *)playlists ascending:(BOOL)ascending;
+-(NSArray*)playlists;
+-(NSArray*)adjacentEntriesInPlaylists:(NSArray*)playlists ascending:(BOOL)ascending;
 
 @property (readonly) LHHistoryEntry *previousEntry;
 @property (readonly) LHHistoryEntry *nextEntry;

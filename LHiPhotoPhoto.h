@@ -20,7 +20,7 @@
 	NSString *_thumbPath;
 }
 
-- (id)initWithDictionary:(NSDictionary *)imageDict inRoll:(LHiPhotoRoll *)roll;
+-(id)initWithDictionary:(NSDictionary*)imageDict inRoll:(LHiPhotoRoll*)roll;
 
 @property (readonly) LHiPhotoRoll __weak *roll;
 

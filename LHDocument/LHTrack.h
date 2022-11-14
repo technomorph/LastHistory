@@ -7,9 +7,9 @@
 	NSString *_genre;
 }
 
-+ (NSArray *)genreTagsMappings;
-+ (NSArray *)genres;
-+ (NSUInteger)genreIndexForGenre:(NSString *)genre;
++(NSArray*)genreTagsMappings;
++(NSArray*)genres;
++(NSUInteger)genreIndexForGenre:(NSString*)genre;
 
 @property (readonly) NSString *displayName;
 @property (readonly) NSString *trackID;
@@ -18,7 +18,7 @@
 
 @property (readonly) NSArray *sortedTrackTags;
 
-- (NSString *)tagsStringWrappedAt:(NSUInteger)numWrapChars;
+-(NSString*)tagsStringWrappedAt:(NSUInteger)numWrapChars;
 @property (readonly) NSString *tagsString;
 
 @property (readonly) NSString *genre;

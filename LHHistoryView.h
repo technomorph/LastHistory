@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
+#import <AppKit/AppKit.h>
 
 
 #define STREAM_PADDING_X 200.0 // additional left/right padding for streams to enable display of all information
@@ -55,7 +56,7 @@ enum {
 	
 	CALayer *_selectionRectLayer;
 	
-	id <LHEvent> _highlightedEvent;
+	id<LHEvent> _highlightedEvent;
 	CALayer *_mouseOverLayer;
 	
 	NSMutableDictionary *_nodeImages;			// by label
@@ -68,39 +69,39 @@ enum {
 
 @property (readonly) LHDocument *document;
 
-@property (assign) float timeScaleFactor;
+@property (nonatomic, assign) float timeScaleFactor;
 @property (assign) float nodeScaleFactor;
 @property (assign) BOOL showHistoryEntryWeights;
 @property (assign) BOOL flipTimeline;
 @property (assign) BOOL showReferenceStreams;
 
-@property (assign) id <LHEvent> highlightedEvent;
-@property (assign) CALayer *mouseOverLayer;
+@property (nonatomic, assign) id <LHEvent> highlignonatomic, htedEvent;
+@property (nonatomic, assign) CALayer *mouseOverLayer;
 
 @property (readonly) NSDate *timelineStart;
 @property (readonly) NSDate *timelineEnd;
 
 @property (readonly) NSSet *streams;
 
-- (void)windowControllerDidLoad;
-- (void)layoutIfNeeded;
+-(void)windowControllerDidLoad;
+-(void)layoutIfNeeded;
 
-- (IBAction)increaseTimeScaleFactor:(id)sender;
-- (IBAction)decreaseTimeScaleFactor:(id)sender;
+-(IBAction)increaseTimeScaleFactor:(id)sender;
+-(IBAction)decreaseTimeScaleFactor:(id)sender;
 
-- (IBAction)increaseNodeScaleFactor:(id)sender;
-- (IBAction)decreaseNodeScaleFactor:(id)sender;
+-(IBAction)increaseNodeScaleFactor:(id)sender;
+-(IBAction)decreaseNodeScaleFactor:(id)sender;
 
-- (void)scrollToDate:(NSDate *)date;
+-(void)scrollToDate:(NSDate*)date;
 
-- (void)insertObjectsWithIDs:(NSSet *)objectIDs;
-- (void)updateObjectsWithIDs:(NSSet *)objectIDs;
+-(void)insertObjectsWithIDs:(NSSet*)objectIDs;
+-(void)updateObjectsWithIDs:(NSSet*)objectIDs;
 
-- (LHStreamLayer *)streamWithName:(NSString *)name;
+-(LHStreamLayer*)streamWithName:(NSString*)name;
 
 
 // View utilities
-- (CGFloat)xPositionForDate:(NSDate *)date;
-- (CGFloat)yPositionForTime:(NSInteger)time;
+-(CGFloat)xPositionForDate:(NSDate*)date;
+-(CGFloat)yPositionForTime:(NSInteger)time;
 
 @end

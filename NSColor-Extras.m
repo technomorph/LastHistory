@@ -12,7 +12,7 @@
 
 @implementation NSColor (Extras)
 
-- (CGColorRef)cgColor
+-(CGColorRef)cgColor
 {
 	NSColor *deviceColor = [self colorUsingColorSpaceName:NSDeviceRGBColorSpace];
 	

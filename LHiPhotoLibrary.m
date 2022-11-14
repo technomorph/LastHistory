@@ -14,7 +14,7 @@
 @synthesize libraryURL=_libraryURL;
 @synthesize rolls=_rolls;
 
-+ (LHiPhotoLibrary *)defaultLibrary
++(LHiPhotoLibrary*)defaultLibrary
 {
 	static id defaultLibrary = nil;
 	if (!defaultLibrary) {
@@ -29,7 +29,7 @@
 	return defaultLibrary;
 }
 
-- (id)initWithURL:(NSURL *)libraryURL
+-(id)initWithURL:(NSURL*)libraryURL
 {
 	self = [super init];
 	if (self != nil) {
@@ -44,7 +44,7 @@
 	return self;
 }
 
-- (LHiPhotoPhoto *)imageForKey:(NSString *)key inRoll:(LHiPhotoRoll *)roll
+-(LHiPhotoPhoto*)imageForKey:(NSString*)key inRoll:(LHiPhotoRoll*)roll
 {
 #if USE_IMAGE_CACHE
 	LHiPhotoPhoto *result = [_imageCache objectForKey:key];
@@ -66,7 +66,7 @@
 	return result;
 }
 
-- (BOOL)loadLibrary
+-(BOOL)loadLibrary
 {
 	if (_rolls && _imageDictsByKey)
 		return YES;
@@ -92,7 +92,7 @@
 			LHiPhotoRoll *roll = [[LHiPhotoRoll alloc] initWithDictionary:rollDict forLibrary:self];
 			[rolls addObject:roll];
 		}
-		NSLog(@"Read %d rolls from iPhoto.", rolls.count);
+		NSLog(@"Read %lu rolls from iPhoto.", (unsigned long)rolls.count);
 		_rolls = [rolls copy];
 	}
 	
@@ -100,7 +100,7 @@
 	if (!images) {
 		NSLog(@"Error: No images found in iPhoto library.");
 	} else {
-		NSLog(@"Read %d images from iPhoto.", images.count);
+		NSLog(@"Read %lu images from iPhoto.", (unsigned long)images.count);
 		_imageDictsByKey = [images copy];
 	}
 	

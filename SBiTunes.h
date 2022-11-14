@@ -114,13 +114,13 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 @property (copy, readonly) NSString *faxNumber;  // for fax number
 @property (copy, readonly) NSString *targetPrinter;  // for target printer
 
-- (void) printPrintDialog:(BOOL)printDialog withProperties:(SBiTunesPrintSettings *)withProperties kind:(SBiTunesEKnd)kind theme:(NSString *)theme;  // Print the specified object(s)
-- (void) close;  // Close an object
-- (void) delete;  // Delete an element from an object
-- (SBObject *) duplicateTo:(SBObject *)to;  // Duplicate one or more object(s)
-- (BOOL) exists;  // Verify if an object exists
-- (void) open;  // open the specified object(s)
-- (void) playOnce:(BOOL)once;  // play the current track or the specified track or file.
+-(void) printPrintDialog:(BOOL)printDialog withProperties:(SBiTunesPrintSettings*)withProperties kind:(SBiTunesEKnd)kind theme:(NSString*)theme;  // Print the specified object(s)
+-(void) close;  // Close an object
+-(void) delete;  // Delete an element from an object
+-(SBObject*) duplicateTo:(SBObject*)to;  // Duplicate one or more object(s)
+-(BOOL) exists;  // Verify if an object exists
+-(void) open;  // open the specified object(s)
+-(void) playOnce:(BOOL)once;  // play the current track or the specified track or file.
 
 @end
 
@@ -133,14 +133,14 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 // The application program
 @interface SBiTunesApplication : SBApplication
 
-- (SBElementArray *) browserWindows;
-- (SBElementArray *) encoders;
-- (SBElementArray *) EQPresets;
-- (SBElementArray *) EQWindows;
-- (SBElementArray *) playlistWindows;
-- (SBElementArray *) sources;
-- (SBElementArray *) visuals;
-- (SBElementArray *) windows;
+-(SBElementArray*) browserWindows;
+-(SBElementArray*) encoders;
+-(SBElementArray*) EQPresets;
+-(SBElementArray*) EQWindows;
+-(SBElementArray*) playlistWindows;
+-(SBElementArray*) sources;
+-(SBElementArray*) visuals;
+-(SBElementArray*) windows;
 
 @property (copy) SBiTunesEncoder *currentEncoder;  // the currently selected encoder (MP3, AIFF, WAV, etc.)
 @property (copy) SBiTunesEQPreset *currentEQPreset;  // the currently selected equalizer preset
@@ -163,27 +163,27 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 @property BOOL visualsEnabled;  // are visuals currently being displayed?
 @property SBiTunesEVSz visualSize;  // the size of the displayed visual
 
-- (void) printPrintDialog:(BOOL)printDialog withProperties:(SBiTunesPrintSettings *)withProperties kind:(SBiTunesEKnd)kind theme:(NSString *)theme;  // Print the specified object(s)
-- (void) run;  // run iTunes
-- (void) quit;  // quit iTunes
-- (SBiTunesTrack *) add:(NSArray *)x to:(SBObject *)to;  // add one or more files to a playlist
-- (void) backTrack;  // reposition to beginning of current track or go to previous track if already at start of current track
-- (SBiTunesTrack *) convert:(NSArray *)x;  // convert one or more files or tracks
-- (void) fastForward;  // skip forward in a playing track
-- (void) nextTrack;  // advance to the next track in the current playlist
-- (void) pause;  // pause playback
-- (void) playOnce:(BOOL)once;  // play the current track or the specified track or file.
-- (void) playpause;  // toggle the playing/paused state of the current track
-- (void) previousTrack;  // return to the previous track in the current playlist
-- (void) resume;  // disable fast forward/rewind and resume playback, if playing.
-- (void) rewind;  // skip backwards in a playing track
-- (void) stop;  // stop playback
-- (void) update;  // update the specified iPod
-- (void) eject;  // eject the specified iPod
-- (void) subscribe:(NSString *)x;  // subscribe to a podcast feed
-- (void) updateAllPodcasts;  // update all subscribed podcast feeds
-- (void) updatePodcast;  // update podcast feed
-- (void) openLocation:(NSString *)x;  // Opens a Music Store or audio stream URL
+-(void) printPrintDialog:(BOOL)printDialog withProperties:(SBiTunesPrintSettings*)withProperties kind:(SBiTunesEKnd)kind theme:(NSString*)theme;  // Print the specified object(s)
+-(void) run;  // run iTunes
+-(void) quit;  // quit iTunes
+-(SBiTunesTrack*) add:(NSArray*)x to:(SBObject*)to;  // add one or more files to a playlist
+-(void) backTrack;  // reposition to beginning of current track or go to previous track if already at start of current track
+-(SBiTunesTrack*) convert:(NSArray*)x;  // convert one or more files or tracks
+-(void) fastForward;  // skip forward in a playing track
+-(void) nextTrack;  // advance to the next track in the current playlist
+-(void) pause;  // pause playback
+-(void) playOnce:(BOOL)once;  // play the current track or the specified track or file.
+-(void) playpause;  // toggle the playing/paused state of the current track
+-(void) previousTrack;  // return to the previous track in the current playlist
+-(void) resume;  // disable fast forward/rewind and resume playback, if playing.
+-(void) rewind;  // skip backwards in a playing track
+-(void) stop;  // stop playback
+-(void) update;  // update the specified iPod
+-(void) eject;  // eject the specified iPod
+-(void) subscribe:(NSString*)x;  // subscribe to a podcast feed
+-(void) updateAllPodcasts;  // update all subscribed podcast feeds
+-(void) updatePodcast;  // update podcast feed
+-(void) openLocation:(NSString*)x;  // Opens a Music Store or audio stream URL
 
 @end
 
@@ -191,19 +191,19 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 @interface SBiTunesItem : SBObject
 
 @property (copy, readonly) SBObject *container;  // the container of the item
-- (NSInteger) id;  // the id of the item
+-(NSInteger) id;  // the id of the item
 @property (readonly) NSInteger index;  // The index of the item in internal application order.
 @property (copy) NSString *name;  // the name of the item
 @property (copy, readonly) NSString *persistentID;  // the id of the item as a hexidecimal string. This id does not change over time.
 
-- (void) printPrintDialog:(BOOL)printDialog withProperties:(SBiTunesPrintSettings *)withProperties kind:(SBiTunesEKnd)kind theme:(NSString *)theme;  // Print the specified object(s)
-- (void) close;  // Close an object
-- (void) delete;  // Delete an element from an object
-- (SBObject *) duplicateTo:(SBObject *)to;  // Duplicate one or more object(s)
-- (BOOL) exists;  // Verify if an object exists
-- (void) open;  // open the specified object(s)
-- (void) playOnce:(BOOL)once;  // play the current track or the specified track or file.
-- (void) reveal;  // reveal and select a track or playlist
+-(void) printPrintDialog:(BOOL)printDialog withProperties:(SBiTunesPrintSettings*)withProperties kind:(SBiTunesEKnd)kind theme:(NSString*)theme;  // Print the specified object(s)
+-(void) close;  // Close an object
+-(void) delete;  // Delete an element from an object
+-(SBObject*) duplicateTo:(SBObject*)to;  // Duplicate one or more object(s)
+-(BOOL) exists;  // Verify if an object exists
+-(void) open;  // open the specified object(s)
+-(void) playOnce:(BOOL)once;  // play the current track or the specified track or file.
+-(void) reveal;  // reveal and select a track or playlist
 
 @end
 
@@ -251,7 +251,7 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 // a list of songs/streams
 @interface SBiTunesPlaylist : SBiTunesItem
 
-- (SBElementArray *) tracks;
+-(SBElementArray*) tracks;
 
 @property (readonly) NSInteger duration;  // the total length of all songs (in seconds)
 @property (copy) NSString *name;  // the name of the playlist
@@ -263,15 +263,15 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 @property (copy, readonly) NSString *time;  // the length of all songs in MM:SS format
 @property (readonly) BOOL visible;  // is this playlist visible in the Source list?
 
-- (void) moveTo:(SBObject *)to;  // Move playlist(s) to a new location
-- (SBiTunesTrack *) searchFor:(NSString *)for_ only:(SBiTunesESrA)only;  // search a playlist for tracks matching the search string. Identical to entering search text in the Search field in iTunes.
+-(void) moveTo:(SBObject*)to;  // Move playlist(s) to a new location
+-(SBiTunesTrack*) searchFor:(NSString*)for_ only:(SBiTunesESrA)only;  // search a playlist for tracks matching the search string. Identical to entering search text in the Search field in iTunes.
 
 @end
 
 // a playlist representing an audio CD
 @interface SBiTunesAudioCDPlaylist : SBiTunesPlaylist
 
-- (SBElementArray *) audioCDTracks;
+-(SBElementArray*) audioCDTracks;
 
 @property (copy) NSString *artist;  // the artist of the CD
 @property BOOL compilation;  // is this CD a compilation album?
@@ -287,7 +287,7 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 // a playlist representing the contents of a portable device
 @interface SBiTunesDevicePlaylist : SBiTunesPlaylist
 
-- (SBElementArray *) deviceTracks;
+-(SBElementArray*) deviceTracks;
 
 
 @end
@@ -295,9 +295,9 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 // the master music library playlist
 @interface SBiTunesLibraryPlaylist : SBiTunesPlaylist
 
-- (SBElementArray *) fileTracks;
-- (SBElementArray *) URLTracks;
-- (SBElementArray *) sharedTracks;
+-(SBElementArray*) fileTracks;
+-(SBElementArray*) URLTracks;
+-(SBElementArray*) sharedTracks;
 
 
 @end
@@ -305,7 +305,7 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 // the radio tuner playlist
 @interface SBiTunesRadioTunerPlaylist : SBiTunesPlaylist
 
-- (SBElementArray *) URLTracks;
+-(SBElementArray*) URLTracks;
 
 
 @end
@@ -313,26 +313,26 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 // a music source (music library, CD, device, etc.)
 @interface SBiTunesSource : SBiTunesItem
 
-- (SBElementArray *) audioCDPlaylists;
-- (SBElementArray *) devicePlaylists;
-- (SBElementArray *) libraryPlaylists;
-- (SBElementArray *) playlists;
-- (SBElementArray *) radioTunerPlaylists;
-- (SBElementArray *) userPlaylists;
+-(SBElementArray*) audioCDPlaylists;
+-(SBElementArray*) devicePlaylists;
+-(SBElementArray*) libraryPlaylists;
+-(SBElementArray*) playlists;
+-(SBElementArray*) radioTunerPlaylists;
+-(SBElementArray*) userPlaylists;
 
 @property (readonly) long long capacity;  // the total size of the source if it has a fixed size
 @property (readonly) long long freeSpace;  // the free space on the source if it has a fixed size
 @property (readonly) SBiTunesESrc kind;
 
-- (void) update;  // update the specified iPod
-- (void) eject;  // eject the specified iPod
+-(void) update;  // update the specified iPod
+-(void) eject;  // eject the specified iPod
 
 @end
 
 // playable audio source
 @interface SBiTunesTrack : SBiTunesItem
 
-- (SBElementArray *) artworks;
+-(SBElementArray*) artworks;
 
 @property (copy) NSString *album;  // the album name of the track
 @property (copy) NSString *albumArtist;  // the album artist of the track
@@ -415,7 +415,7 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 
 @property (copy) NSURL *location;  // the location of the file represented by this track
 
-- (void) refresh;  // update file track information from the current information in the track’s file
+-(void) refresh;  // update file track information from the current information in the track’s file
 
 @end
 
@@ -430,16 +430,16 @@ typedef enum SBiTunesERtK SBiTunesERtK;
 
 @property (copy) NSString *address;  // the URL for this track
 
-- (void) download;  // download podcast episode
+-(void) download;  // download podcast episode
 
 @end
 
 // custom playlists created by the user
 @interface SBiTunesUserPlaylist : SBiTunesPlaylist
 
-- (SBElementArray *) fileTracks;
-- (SBElementArray *) URLTracks;
-- (SBElementArray *) sharedTracks;
+-(SBElementArray*) fileTracks;
+-(SBElementArray*) URLTracks;
+-(SBElementArray*) sharedTracks;
 
 @property BOOL shared;  // is this playlist shared?
 @property (readonly) BOOL smart;  // is this a Smart Playlist?

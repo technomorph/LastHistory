@@ -14,7 +14,7 @@
 @synthesize layer;
 @synthesize hidden;
 
-- (void)awakeFromInsert
+-(void)awakeFromInsert
 {
 	[super awakeFromInsert];
 	
@@ -22,7 +22,7 @@
 	[self setPrimitiveValue:[NSNumber numberWithFloat:INITIAL_WEIGHT] forKey:@"weight"];
 }
 
-- (NSAttributedString *)attributedDisplayName
+-(NSAttributedString*)attributedDisplayName
 {
 	NSDateFormatter *outputFormatter = [NSDateFormatter new];
 	[outputFormatter setDateStyle:NSDateFormatterMediumStyle];
@@ -40,7 +40,7 @@
 }
 
 
-- (NSArray *)adjacentEntries:(NSUInteger)numEntries ascending:(BOOL)ascending
+-(NSArray*)adjacentEntries:(NSUInteger)numEntries ascending:(BOOL)ascending
 {
 	NSFetchRequest *request = [NSFetchRequest new];
 	[request setEntity:self.entity];
@@ -57,7 +57,7 @@
 }
 
 // fetches all playlists within +/- 2 hours of all connected history entries
-- (NSArray *)playlists
+-(NSArray*)playlists
 {
 	NSFetchRequest *request = [NSFetchRequest new];
 	[request setEntity:self.entity];
@@ -86,7 +86,7 @@
 }
 
 // returns the adjacent playlists entries for a given playlists array
-- (NSArray *)adjacentEntriesInPlaylists:(NSArray *)playlists ascending:(BOOL)ascending
+-(NSArray*)adjacentEntriesInPlaylists:(NSArray*)playlists ascending:(BOOL)ascending
 {
 	NSString *predicateString = [NSString stringWithFormat:@"timestamp %@ %%@", ascending ? @">" : @"<"];
 	NSArray *result = [playlists filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:predicateString, self.timestamp]];
@@ -100,7 +100,7 @@
 		LHHistoryEntry *previousEntry = i == 0 ? self : [result objectAtIndex:i-1];
 		LHHistoryEntry *entry = [result objectAtIndex:i];
 		if (!ascending)
-			swap((void *)&previousEntry, (void *)&entry);
+			swap((void*)&previousEntry, (void*)&entry);
 		if ([entry.timestamp timeIntervalSinceDate:previousEntry.timestamp] > PLAYLIST_GAP_SECONDS) {
 			result = [result subarrayWithRange:NSMakeRange(0, i)];
 			break;
@@ -111,18 +111,18 @@
 }
 
 
-- (LHHistoryEntry *)previousEntry
+-(LHHistoryEntry*)previousEntry
 {
 	return [[self adjacentEntries:1 ascending:NO] lastObject];
 }
 
-- (LHHistoryEntry *)nextEntry
+-(LHHistoryEntry*)nextEntry
 {
 	return [[self adjacentEntries:1 ascending:YES] lastObject];
 }
 
 
-- (NSDate *)day
+-(NSDate*)day
 {
 	// cache day for performance reasons (used for every repositioning nodes)
 	if (!_day)
@@ -130,35 +130,35 @@
 	return _day;
 }
 
-- (NSInteger)year
+-(NSInteger)year
 {
 	if (!_year)
 		_year = [self.timestamp year];
 	return _year;
 }
 
-- (NSInteger)month
+-(NSInteger)month
 {
 	if (!_month)
 		_month = [self.timestamp month];
 	return _month;
 }
 
-- (NSInteger)hour
+-(NSInteger)hour
 {
 	if (!_hour)
 		_hour = [self.timestamp hour];
 	return _hour;
 }
 
-- (NSInteger)weekday
+-(NSInteger)weekday
 {
 	if (!_weekday)
 		_weekday = [self.timestamp weekday];
 	return _weekday;
 }
 
-- (void)setTimestamp:(NSDate *)timestamp
+-(void)setTimestamp:(NSDate*)timestamp
 {
 	[self willChangeValueForKey:@"timestamp"];
 	[self setPrimitiveValue:timestamp forKey:@"timestamp"];

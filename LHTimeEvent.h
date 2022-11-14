@@ -18,8 +18,8 @@
 	NSInteger _endTime;
 }
 
-- (id)initWithStartTime:(NSInteger)startTime endTime:(NSInteger)endTime;
-- (id)initWithStartDate:(NSDate *)startDate endDate:(NSDate *)endDate startTime:(NSInteger)startTime endTime:(NSInteger)endTime;
+-(id)initWithStartTime:(NSInteger)startTime endTime:(NSInteger)endTime;
+-(id)initWithStartDate:(NSDate*)startDate endDate:(NSDate*)endDate startTime:(NSInteger)startTime endTime:(NSInteger)endTime;
 
 @property (readonly) NSDate *eventStart;
 @property (readonly) NSDate *eventEnd;

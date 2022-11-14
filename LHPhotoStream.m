@@ -21,18 +21,18 @@
 
 @implementation LHPhotoStream
 
-+ (Class)nodeClass
++(Class)nodeClass
 {
 	return [LHiPhotoRoll class];
 }
 
-- (void)setupLayer
+-(void)setupLayer
 {
 	self.anchorPoint = CGPointMake(0, 0);
 	self.bounds = CGRectMake(0, 0, self.superlayer.bounds.size.width, PHOTOS_HEIGHT_MAX);
 }
 
-- (void)generateNodes
+-(void)generateNodes
 {
 	[self removeAllSublayers];
 	
@@ -71,10 +71,10 @@
 		}
 	}
 	
-	NSLog(@"Generated %u photo nodes", processedCount);
+	NSLog(@"Generated %lu photo nodes", (unsigned long)processedCount);
 }
 
-- (void)layoutSublayers
+-(void)layoutSublayers
 {
 	if (self.superlayer.isHidden)
 		return;
@@ -89,7 +89,7 @@
 	}
 }
 
-- (void)setHighlightedNode:(CALayer *)newLayer
+-(void)setHighlightedNode:(CALayer*)newLayer
 {
 	if (_highlightedNode != newLayer)
 	{
@@ -113,7 +113,7 @@
 	}
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent onLayer:(CALayer *)hitLayer
+-(void)mouseMoved:(NSEvent*)theEvent onLayer:(CALayer*)hitLayer
 {
 	// set highlighted node
 	[super mouseMoved:theEvent onLayer:hitLayer];

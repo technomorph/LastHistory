@@ -8,12 +8,12 @@
 
 @implementation _LHTrack
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++(id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Track" inManagedObjectContext:moc_];
 }
 
-- (LHTrackID*)objectID {
+-(LHTrackID*)objectID {
 	return (LHTrackID*)[super objectID];
 }
 
@@ -37,7 +37,7 @@
 @dynamic trackTags;
 
 	
-- (NSMutableSet*)trackTagsSet {
+-(NSMutableSet*)trackTagsSet {
 	[self willAccessValueForKey:@"trackTags"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"trackTags"];
 	[self didAccessValueForKey:@"trackTags"];
@@ -56,7 +56,7 @@
 @dynamic historyEntries;
 
 	
-- (NSMutableSet*)historyEntriesSet {
+-(NSMutableSet*)historyEntriesSet {
 	[self willAccessValueForKey:@"historyEntries"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"historyEntries"];
 	[self didAccessValueForKey:@"historyEntries"];
@@ -67,7 +67,7 @@
 
 
 
-+ (NSArray*)fetchTracksWithNameAndArtist:(NSManagedObjectContext*)moc_ name:(NSString*)name_ artist:(LHArtist*)artist_ {
++(NSArray*)fetchTracksWithNameAndArtist:(NSManagedObjectContext*)moc_ name:(NSString*)name_ artist:(LHArtist*)artist_ {
 	NSError *error = nil;
 	NSArray *result = [self fetchTracksWithNameAndArtist:moc_ name:name_ artist:artist_ error:&error];
 	if (error) {
@@ -79,7 +79,7 @@
 	}
 	return result;
 }
-+ (NSArray*)fetchTracksWithNameAndArtist:(NSManagedObjectContext*)moc_ name:(NSString*)name_ artist:(LHArtist*)artist_ error:(NSError**)error_ {
++(NSArray*)fetchTracksWithNameAndArtist:(NSManagedObjectContext*)moc_ name:(NSString*)name_ artist:(LHArtist*)artist_ error:(NSError**)error_ {
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];

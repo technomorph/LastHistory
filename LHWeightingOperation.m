@@ -23,7 +23,7 @@
 
 @implementation LHWeightingOperation
 
-- (void)process
+-(void)process
 {
 	NSManagedObjectContext *context = self.context;
 	
@@ -36,11 +36,11 @@
 	if (historyEntries.count == 0)
 		return;
 	
-	self.progressMessage = [NSString stringWithFormat:@"Calculating weights for %u history entries...", historyEntries.count];
+	self.progressMessage = [NSString stringWithFormat:@"Calculating weights for %lu history entries...", (unsigned long)historyEntries.count];
 	self.progressIndeterminate = NO;
 	
 	NSUInteger maxTrackCount = [[tracks valueForKeyPath:@"@max.historyEntries.@count"] unsignedIntegerValue];
-	NSLog(@"max. track count: %u", maxTrackCount);
+	NSLog(@"max. track count: %lu", (unsigned long)maxTrackCount);
 	
 	LHHistoryEntry *firstHistoryEntry = [historyEntries objectAtIndex:0];
 	LHHistoryEntry *lastHistoryEntry = [historyEntries lastObject];
@@ -78,7 +78,7 @@
 			NSUInteger similarHistoryEntryCount = [self.document countForEntity:@"HistoryEntry" withPredicate:predicate inContext:context];
 			
 			NSTimeInterval timeSinceHistoryStart = [historyEntry.timestamp timeIntervalSinceDate:historyStartDate];
-			float timePointModifier = (1.0 - TIME_POINT_MODIFIER_WEIGHT/2) + ((timeSinceHistoryStart / historyDuration) * TIME_POINT_MODIFIER_WEIGHT);
+			float timePointModifier = (1.0 - TIME_POINT_MODIFIER_WEIGHT/2) +((timeSinceHistoryStart / historyDuration) * TIME_POINT_MODIFIER_WEIGHT);
 			
 			weight = ((float)similarHistoryEntryCount / trackCount) * ((float)trackCount / maxTrackCount) * timePointModifier;
 //			NSLog(@"%f: %@ - %@, time: %f", weight, track.artist.name, track.name, timePointModifier);

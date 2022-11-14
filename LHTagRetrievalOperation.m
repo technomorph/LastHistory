@@ -7,7 +7,6 @@
 //
 
 #import "LHTagRetrievalOperation.h"
-
 #import "LHAppDelegate.h"
 #import "LHDocument.h"
 #import "LHTrack.h"
@@ -24,7 +23,7 @@
 
 @implementation LHTagRetrievalOperation
 
-- (void)process
+-(void)process
 {
 	NSManagedObjectContext *context = self.context;
 	
@@ -37,7 +36,7 @@
 	if (!tracks)
 		return;
 	
-	self.progressMessage = [NSString stringWithFormat:@"Retrieving tags for %u tracks...", tracks.count];
+	self.progressMessage = [NSString stringWithFormat:@"Retrieving tags for %lu tracks...", (unsigned long)tracks.count];
 	self.progressIndeterminate = NO;
 	
 	LFWebService *webService = [[NSApp delegate] lfWebService];

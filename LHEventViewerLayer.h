@@ -21,11 +21,11 @@
 }
 
 @property (retain) LHiPhotoRoll *photoRoll;
-@property (assign) NSInteger photoRollIndex;
-@property (assign) BOOL isPlaying;
+@property (nonatomic, assign) NSInteger photoRollIndex;
+@property (nonatomic, assign) BOOL isPlaying;
 
-+ (LHEventViewerLayer *)layerWithPhotoRoll:(LHiPhotoRoll *)roll;
++(LHEventViewerLayer*)layerWithPhotoRoll:(LHiPhotoRoll*)roll;
 
-- (BOOL)handleMouseUpAtPoint:(CGPoint)mousePoint;
+-(BOOL)handleMouseUpAtPoint:(CGPoint)mousePoint;
 
 @end

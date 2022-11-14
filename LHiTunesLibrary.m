@@ -15,7 +15,7 @@
 
 @synthesize libraryURL=_libraryURL;
 
-+ (LHiTunesLibrary *)defaultLibrary
++(LHiTunesLibrary*)defaultLibrary
 {
 	static id defaultLibrary = nil;
 	if (!defaultLibrary) {
@@ -30,7 +30,7 @@
 	return defaultLibrary;
 }
 
-- (id)initWithURL:(NSURL *)libraryURL
+-(id)initWithURL:(NSURL*)libraryURL
 {
 	self = [super init];
 	if (self != nil) {
@@ -39,7 +39,7 @@
 	return self;
 }
 
-- (NSDictionary *)tracks
+-(NSDictionary*)tracks
 {
 	if (_tracks)
 		return _tracks;
@@ -61,7 +61,7 @@
 		return nil;
 	}
 	
-	NSLog(@"Read %d tracks from iTunes.", tracks.count);
+	NSLog(@"Read %lu tracks from iTunes.", (unsigned long)tracks.count);
 	
 	NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:tracks.count];
 	for (NSDictionary *track in tracks.allValues)
@@ -77,7 +77,7 @@
 	return _tracks;
 }
 
-- (NSDictionary *)trackForTrack:(NSString *)name artist:(NSString *)artist
+-(NSDictionary*)trackForTrack:(NSString*)name artist:(NSString*)artist
 {
 	NSString *trackID = [[NSString stringWithFormat:@"%@ - %@", artist, name] lowercaseString];
 	return [self.tracks objectForKey:trackID];
@@ -87,7 +87,7 @@
 #pragma mark -
 #pragma mark iTunes Scripting
 
-- (SBiTunesApplication *)app
+-(SBiTunesApplication*)app
 {
 	if (!_app)
 		_app = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
@@ -95,7 +95,7 @@
 	return _app;
 }
 
-- (SBiTunesSource *)source
+-(SBiTunesSource*)source
 {
 	for (SBiTunesSource *source in [[self app] sources]) {
 		if ([source kind] == SBiTunesESrcLibrary)
@@ -106,7 +106,7 @@
 }
 
 // master music library playlist
-- (SBiTunesPlaylist *)masterPlaylist
+-(SBiTunesPlaylist*)masterPlaylist
 {
 	if (!_masterPlaylist)
 	{
@@ -121,7 +121,7 @@
 	return _masterPlaylist;
 }
 
-- (SBiTunesTrack *)trackForTrack:(NSDictionary *)track
+-(SBiTunesTrack*)trackForTrack:(NSDictionary*)track
 {
 	SBiTunesPlaylist *masterPlaylist = [self masterPlaylist];
 	
@@ -129,7 +129,7 @@
 	return [[[masterPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", persistentID]] lastObject];
 }
 
-- (void)revealTrack:(NSDictionary *)track
+-(void)revealTrack:(NSDictionary*)track
 {
 	if (track)
 	{
@@ -138,7 +138,7 @@
 	}
 }
 
-- (void)createPlaylist:(NSString *)name withTracks:(NSArray *)tracks
+-(void)createPlaylist:(NSString*)name withTracks:(NSArray*)tracks
 {
 	if ([tracks count] > 0)
 	{

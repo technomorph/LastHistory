@@ -11,6 +11,6 @@
 
 @interface NSColor (Extras)
 
-- (CGColorRef)cgColor;
+-(CGColorRef)cgColor;
 
 @end

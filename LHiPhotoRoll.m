@@ -53,7 +53,7 @@
 @synthesize name=_name;
 @synthesize timestamp=_timestamp;
 
-- (id)initWithDictionary:(NSDictionary *)rollDict forLibrary:(LHiPhotoLibrary *)library
+-(id)initWithDictionary:(NSDictionary*)rollDict forLibrary:(LHiPhotoLibrary*)library
 {
 	self = [super init];
 	if (self != nil) {
@@ -68,12 +68,12 @@
 	return self;
 }
 
-- (LHiPhotoPhoto *)keyPhoto
+-(LHiPhotoPhoto*)keyPhoto
 {
 	return [self.library imageForKey:_keyPhotoKey inRoll:self];
 }
 
-- (NSArray *)photos
+-(NSArray*)photos
 {
 	if (!_photos)
 	{
@@ -91,7 +91,7 @@
 	return _photos;
 }
 
-- (NSDate *)eventStart
+-(NSDate*)eventStart
 {
 	if (_photoKeys.count == 0)
 		return nil;
@@ -100,7 +100,7 @@
 	return firstPhoto.timestamp;
 }
 
-- (NSDate *)eventEnd
+-(NSDate*)eventEnd
 {
 	if (_photoKeys.count == 0)
 		return nil;
@@ -109,7 +109,7 @@
 	return lastPhoto.timestamp;
 }
 
-- (NSInteger)eventStartTime {return LH_EVENT_TIME_UNDEFINED;}
-- (NSInteger)eventEndTime {return LH_EVENT_TIME_UNDEFINED;}
+-(NSInteger)eventStartTime {return LH_EVENT_TIME_UNDEFINED;}
+-(NSInteger)eventEndTime {return LH_EVENT_TIME_UNDEFINED;}
 
 @end

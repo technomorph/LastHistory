@@ -8,12 +8,12 @@
 
 @implementation _LHArtist
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++(id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Artist" inManagedObjectContext:moc_];
 }
 
-- (LHArtistID*)objectID {
+-(LHArtistID*)objectID {
 	return (LHArtistID*)[super objectID];
 }
 
@@ -37,7 +37,7 @@
 @dynamic albums;
 
 	
-- (NSMutableSet*)albumsSet {
+-(NSMutableSet*)albumsSet {
 	[self willAccessValueForKey:@"albums"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"albums"];
 	[self didAccessValueForKey:@"albums"];
@@ -48,7 +48,7 @@
 @dynamic tracks;
 
 	
-- (NSMutableSet*)tracksSet {
+-(NSMutableSet*)tracksSet {
 	[self willAccessValueForKey:@"tracks"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"tracks"];
 	[self didAccessValueForKey:@"tracks"];
@@ -59,7 +59,7 @@
 
 
 
-+ (NSArray*)fetchArtistsWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ {
++(NSArray*)fetchArtistsWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ {
 	NSError *error = nil;
 	NSArray *result = [self fetchArtistsWithName:moc_ name:name_ error:&error];
 	if (error) {
@@ -71,7 +71,7 @@
 	}
 	return result;
 }
-+ (NSArray*)fetchArtistsWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ error:(NSError**)error_ {
++(NSArray*)fetchArtistsWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ error:(NSError**)error_ {
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];

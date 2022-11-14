@@ -44,10 +44,10 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 
 
 @interface LHDocument (Player)
-- (BOOL)historyEntryIsWithinCurrentEvent:(LHHistoryEntry *)historyEntry;
-- (BOOL)loadHistoryEntry:(LHHistoryEntry *)historyEntry;
-- (BOOL)loadNextAvailableHistoryEntryFromEntry:(LHHistoryEntry *)historyEntry ascending:(BOOL)ascending;
-- (NSArray *)predicatesForEvent:(id <LHEvent>)event;
+-(BOOL)historyEntryIsWithinCurrentEvent:(LHHistoryEntry*)historyEntry;
+-(BOOL)loadHistoryEntry:(LHHistoryEntry*)historyEntry;
+-(BOOL)loadNextAvailableHistoryEntryFromEntry:(LHHistoryEntry*)historyEntry ascending:(BOOL)ascending;
+-(NSArray*)predicatesForEvent:(id <LHEvent>)event;
 @end
 
 
@@ -66,17 +66,17 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 @synthesize currentOperation=_currentOperation;
 
 
-+ (NSSet *)keyPathsForValuesAffectingHistoryEntriesCount
++(NSSet*)keyPathsForValuesAffectingHistoryEntriesCount
 {
 	return [NSSet setWithObject:@"historyEntries"];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingInfoString
++(NSSet*)keyPathsForValuesAffectingInfoString
 {
 	return [NSSet setWithObjects:@"historyEntries", @"visibleHistoryEntries", @"historyEntriesCount", nil];
 }
 
-- (id)init
+-(id)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -85,7 +85,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return self;
 }
 
-- (id)initWithType:(NSString *)typeName error:(NSError **)outError
+-(id)initWithType:(NSString*)typeName error:(NSError **)outError
 {
 	self = [super initWithType:typeName error:outError];
 	if (self)
@@ -96,7 +96,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return self;
 }
 
-- (void)setUsername:(NSString *)username
+-(void)setUsername:(NSString*)username
 {
 	if ([self countForEntity:@"User"] == 0)
 	{
@@ -107,7 +107,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 }
 
 
-- (NSString *)displayName
+-(NSString*)displayName
 {
 	// use user name as default file name if document hasn't been saved yet
 	if (![self fileURL])
@@ -120,12 +120,12 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return [super displayName];
 }
 
-- (NSString *)windowNibName 
+-(NSString*)windowNibName 
 {
 	return @"LHDocument";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *)windowController 
+-(void)windowControllerDidLoadNib:(NSWindowController*)windowController 
 {
 	[super windowControllerDidLoadNib:windowController];
 	
@@ -138,7 +138,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	[[NSNotificationCenter defaultCenter] postNotificationName:LHDocumentDidOpenNotification object:self];
 }
 
-- (void)close
+-(void)close
 {
 	[_queue cancelAllOperations];
 	[self stop:nil];
@@ -156,7 +156,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	[[NSNotificationCenter defaultCenter] postNotificationName:LHDocumentDidCloseNotification object:self];
 }
 
-- (BOOL)ensureSavedDocumentBeforePerformingAction:(SEL)selector
+-(BOOL)ensureSavedDocumentBeforePerformingAction:(SEL)selector
 {
 	if ([[[[self managedObjectContext] persistentStoreCoordinator] persistentStores] count] == 0) {
 		[self saveDocumentWithDelegate:self didSaveSelector:@selector(document:didSave:contextInfo:) contextInfo:selector];
@@ -166,7 +166,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return YES;
 }
 
-- (void)document:(NSDocument *)doc didSave:(BOOL)didSave contextInfo:(void *)contextInfo
+-(void)document:(NSDocument*)doc didSave:(BOOL)didSave contextInfo:(void*)contextInfo
 {
 	if (didSave) {
 		[self performSelector:contextInfo withObject:nil afterDelay:0];
@@ -175,7 +175,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	}
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+-(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
 	if ([keyPath isEqualToString:@"operationMode"])
 	{
@@ -197,14 +197,14 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	}
 }
 
-- (void)runOperation:(LHOperation *)op
+-(void)runOperation:(LHOperation*)op
 {
 	if (!_queue)
 		_queue = [[NSOperationQueue alloc] init];
 	[_queue addOperation:op];
 }
 
-- (void)updateOperation:(LHOperation *)op
+-(void)updateOperation:(LHOperation*)op
 {
 	if ([op isExecuting])
 	{
@@ -226,7 +226,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 }
 
 // called by LHOperations to merge changes from their context
-- (void)mergeChanges:(NSNotification *)notification
+-(void)mergeChanges:(NSNotification*)notification
 {
 	NSAssert([NSThread mainThread], @"Not on the main thread");
 	
@@ -262,11 +262,11 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	}
 }
 
-- (NSArray *)objectsForEntity:(NSString *)entityName
-				withPredicate:(NSPredicate *)predicate
+-(NSArray*)objectsForEntity:(NSString*)entityName
+				withPredicate:(NSPredicate*)predicate
 				   fetchLimit:(NSUInteger)fetchLimit
 					ascending:(BOOL)ascending
-					inContext:(NSManagedObjectContext *)context
+					inContext:(NSManagedObjectContext*)context
 {
 	NSFetchRequest *request = [NSFetchRequest new];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
@@ -296,14 +296,14 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return result;
 }
 
-- (NSArray *)objectsForEntity:(NSString *)entityName
+-(NSArray*)objectsForEntity:(NSString*)entityName
 {
 	return [self objectsForEntity:entityName withPredicate:nil fetchLimit:0 ascending:YES inContext:[self managedObjectContext]];
 }
 
-- (NSUInteger)countForEntity:(NSString *)entityName
-			   withPredicate:(NSPredicate *)predicate
-				   inContext:(NSManagedObjectContext *)context
+-(NSUInteger)countForEntity:(NSString*)entityName
+			   withPredicate:(NSPredicate*)predicate
+				   inContext:(NSManagedObjectContext*)context
 {
 	NSFetchRequest *request = [NSFetchRequest new];
 	NSEntityDescription *entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
@@ -314,12 +314,12 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return [context countForFetchRequest:request error:&error];
 }
 
-- (NSUInteger)countForEntity:(NSString *)entityName
+-(NSUInteger)countForEntity:(NSString*)entityName
 {
 	return [self countForEntity:entityName withPredicate:nil inContext:[self managedObjectContext]];
 }
 
-- (NSString *)infoString
+-(NSString*)infoString
 {
 	NSUInteger historyEntriesCount = self.historyEntriesCount;
 	NSUInteger tracksCount = self.tracksCount;
@@ -331,28 +331,29 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 		float historyEntriesPercent = historyEntriesCount > 0 ? (float)visibleHistoryEntriesCount / historyEntriesCount : 0.0;
 		float tracksPercent = tracksCount > 0 ? (float)visibleTracksCount / tracksCount : 0.0;
 		
-		return [NSString stringWithFormat:@"%u of %u history entries (%.2f%%), %u of %u tracks (%.2f%%)",
-				visibleHistoryEntriesCount, historyEntriesCount, historyEntriesPercent*100,
-				visibleTracksCount, tracksCount, tracksPercent*100];
+	return [NSString stringWithFormat:@"%lu of %u history entries (%.2f%%), %lu of %u tracks (%.2f%%)",
+			(unsigned long)%lu tracks (%.2f%%)",
+			visibleHistoryEntriesCount, historyEntriesCount, historyEntriesPercent*100,
+			(unsigned long)visibleTracksCount, (unsigned long)tracksCount, tracksPercent*100];
 	}
 	else
 	{
-		return [NSString stringWithFormat:@"%u history entries, %u tracks",
-				historyEntriesCount, tracksCount];
+	return [NSString stringWithFormat:@"%lu history entries, %lu tracks",
+			(unsigned long)historyEntriesCount, (unsigned long)tracksCount];
 	}
 }
 
-- (NSArray *)tracks
+-(NSArray*)tracks
 {
 	return [self objectsForEntity:@"Track"];
 }
 
-- (NSUInteger)tracksCount
+-(NSUInteger)tracksCount
 {
 	return [self countForEntity:@"Track"];
 }
 
-- (NSArray *)historyEntries
+-(NSArray*)historyEntries
 {
 	if (!_cachedHistoryEntries)
 	{
@@ -366,19 +367,19 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return _cachedHistoryEntries;
 }
 
-- (NSUInteger)historyEntriesCount
+-(NSUInteger)historyEntriesCount
 {
 	return [self countForEntity:@"HistoryEntry"];
 }
 
-- (NSArray *)visibleHistoryEntries
+-(NSArray*)visibleHistoryEntries
 {
 	NSLog(@"visibleHistoryEntries");
 	// this value is just for key-value observing when the "hidden" property of some history entries changes
 	return nil;
 }
 
-- (LHHistoryEntry *)firstHistoryEntry
+-(LHHistoryEntry*)firstHistoryEntry
 {
 	if (!_firstHistoryEntry)
 		_firstHistoryEntry = [[self objectsForEntity:@"HistoryEntry" withPredicate:nil fetchLimit:1 ascending:YES inContext:[self managedObjectContext]] lastObject];
@@ -386,7 +387,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return _firstHistoryEntry;
 }
 
-- (LHHistoryEntry *)lastHistoryEntry
+-(LHHistoryEntry*)lastHistoryEntry
 {
 	if (!_lastHistoryEntry)
 		_lastHistoryEntry = [[self objectsForEntity:@"HistoryEntry" withPredicate:nil fetchLimit:1 ascending:NO inContext:[self managedObjectContext]] lastObject];
@@ -398,7 +399,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 #pragma mark -
 #pragma mark Searching
 
-- (NSArray *)tokenField:(NSTokenField *)tokenField completionsForSubstring:(NSString *)substring indexOfToken:(NSInteger)tokenIndex indexOfSelectedItem:(NSInteger *)selectedIndex
+-(NSArray*)tokenField:(NSTokenField*)tokenField completionsForSubstring:(NSString*)substring indexOfToken:(NSInteger)tokenIndex indexOfSelectedItem:(NSInteger*)selectedIndex
 {
 	NSMutableArray *result = [NSMutableArray arrayWithCapacity:5];
 	NSPredicate *prefixPredicate = [NSPredicate predicateWithFormat:@"SELF BEGINSWITH[cd] %@", substring];
@@ -420,7 +421,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return [result valueForKeyPath:@"@distinctUnionOfArrays.self"];
 }
 
-- (id)tokenField:(NSTokenField *)tokenField representedObjectForEditingString:(NSString *)token
+-(id)tokenField:(NSTokenField*)tokenField representedObjectForEditingString:(NSString*)token
 {
 	NSDateFormatter *formatter = [NSDateFormatter new];
 	[formatter setLocale:[NSLocale currentLocale]];
@@ -496,7 +497,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return result;
 }
 
-- (NSString *)tokenField:(NSTokenField *)tokenField displayStringForRepresentedObject:(id)token
+-(NSString*)tokenField:(NSTokenField*)tokenField displayStringForRepresentedObject:(id)token
 {
 	NSString *result = nil;
 	
@@ -530,9 +531,9 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 				suffix = @"";
 			
 			if (start != end)
-				result = [NSString stringWithFormat:@"%d%@-%d%@", start, suffix, end, suffix];
+				result = [NSString stringWithFormat:@"%ld%@-%ld%@", (long)start, suffix, (long)end, suffix];
 			else
-				result = [NSString stringWithFormat:@"%d%@", start, suffix];
+				result = [NSString stringWithFormat:@"%ld%@", (long)start, suffix];
 		}
 	}
 	
@@ -551,17 +552,17 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return result;
 }
 
-- (NSString *)tokenField:(NSTokenField *)tokenField editingStringForRepresentedObject:(id)token
+-(NSString*)tokenField:(NSTokenField*)tokenField editingStringForRepresentedObject:(id)token
 {
 	return [token objectForKey:@"token"];
 }
 
-- (BOOL)tokenField:(NSTokenField *)tokenField hasMenuForRepresentedObject:(id)token
+-(BOOL)tokenField:(NSTokenField*)tokenField hasMenuForRepresentedObject:(id)token
 {
 	return YES;
 }
 
-- (NSMenu *)tokenField:(NSTokenField *)tokenField menuForRepresentedObject:(id)token
+-(NSMenu*)tokenField:(NSTokenField*)tokenField menuForRepresentedObject:(id)token
 {
 	if (!token)
 		return nil;
@@ -605,7 +606,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return menu;
 }
 
-- (void)tokenFieldMenuAction:(id)sender
+-(void)tokenFieldMenuAction:(id)sender
 {
 	NSMenuItem *item = sender;
 	NSMutableDictionary *token = [item representedObject];
@@ -623,7 +624,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	[[searchField window] makeFirstResponder:searchField];
 }
 
-- (NSPredicate *)predicateForToken:(NSDictionary *)token format:(NSString *)format, ...
+-(NSPredicate*)predicateForToken:(NSDictionary*)token format:(NSString*)format, ...
 {
 	va_list ap;
 	va_start(ap, format);
@@ -636,7 +637,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return predicate;
 }
 
-- (IBAction)updateFilter:(id)sender
+-(IBAction)updateFilter:(id)sender
 {
 	NSMutableArray *orPredicates = [NSMutableArray array];
 	NSMutableArray *andPredicates = [NSMutableArray array];
@@ -743,12 +744,12 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 #pragma mark -
 #pragma mark Actions
 
-- (void)performFindPanelAction:(id)sender
+-(void)performFindPanelAction:(id)sender
 {
 	[[searchField window] makeFirstResponder:searchField];
 }
 
-- (IBAction)toggleFullScreenMode:(id)sender
+-(IBAction)toggleFullScreenMode:(id)sender
 {
 	if ([historyView isInFullScreenMode])
 		[historyView exitFullScreenModeWithOptions:nil];
@@ -759,7 +760,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 										  nil]];
 }
 
-- (IBAction)showTrackIniTunes:(id)sender
+-(IBAction)showTrackIniTunes:(id)sender
 {
 	LHTrack *track = self.currentHistoryEntry.track;
 	LHiTunesLibrary *library = [LHiTunesLibrary defaultLibrary];
@@ -767,7 +768,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	[library revealTrack:iTunesTrackDict];
 }
 
-- (IBAction)createPlaylistIniTunes:(id)sender
+-(IBAction)createPlaylistIniTunes:(id)sender
 {
 	if ([self.playlist count] > 0)
 	{
@@ -779,7 +780,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	}
 }
 
-- (IBAction)closePlaylistNameSheet:(id)sender
+-(IBAction)closePlaylistNameSheet:(id)sender
 {
 	if ([sender tag] == 1)
 	{
@@ -809,7 +810,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	[playlistNameSheet orderOut:nil];
 }
 
-- (IBAction)stop:(id)sender
+-(IBAction)stop:(id)sender
 {
 	if (self.currentHistoryEntry)
 	{
@@ -820,7 +821,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	}
 }
 
-- (IBAction)pause:(id)sender
+-(IBAction)pause:(id)sender
 {
 	if (_currentSoundIsPaused)
 		_currentSoundIsPaused = ![self.currentSound resume];
@@ -828,17 +829,17 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 		_currentSoundIsPaused = [self.currentSound pause];
 }
 
-- (IBAction)skipBackwards:(id)sender
+-(IBAction)skipBackwards:(id)sender
 {
 	[self loadNextAvailableHistoryEntryFromEntry:self.currentHistoryEntry ascending:NO];
 }
 
-- (IBAction)skipForward:(id)sender
+-(IBAction)skipForward:(id)sender
 {
 	[self loadNextAvailableHistoryEntryFromEntry:self.currentHistoryEntry ascending:YES];
 }
 
-- (BOOL)playHistoryEntry:(LHHistoryEntry *)historyEntry
+-(BOOL)playHistoryEntry:(LHHistoryEntry*)historyEntry
 {
 	// reset current event if track is not within
 	if (![self historyEntryIsWithinCurrentEvent:historyEntry])
@@ -849,7 +850,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return [self loadHistoryEntry:historyEntry];
 }
 
-- (BOOL)playHistoryEntriesForEvent:(id <LHEvent>)event
+-(BOOL)playHistoryEntriesForEvent:(id <LHEvent>)event
 {
 	self.currentEvent = event;
 	self.playlist = nil; // reset playlist
@@ -857,7 +858,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return [self loadNextAvailableHistoryEntryFromEntry:nil ascending:YES];
 }
 
-- (NSUInteger)numberOfHistoryEntriesForEvent:(id <LHEvent>)event
+-(NSUInteger)numberOfHistoryEntriesForEvent:(id <LHEvent>)event
 {
 	NSArray *subpredicates = [self predicatesForEvent:event];
 	NSPredicate *predicate = [NSCompoundPredicate andPredicateWithSubpredicates:subpredicates];
@@ -869,7 +870,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 #pragma mark -
 #pragma mark History Loading
 
-- (void)loadHistoryForUser:(NSString *)username
+-(void)loadHistoryForUser:(NSString*)username
 {
 	LHHistoryRetrievalOperation *operation = [[LHHistoryRetrievalOperation alloc] initWithDocument:self
 																					   andUsername:username];
@@ -885,7 +886,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	[self runOperation:tagRetrievalOperation];
 }
 
-- (IBAction)loadHistory:(id)sender
+-(IBAction)loadHistory:(id)sender
 {
 	if (![self ensureSavedDocumentBeforePerformingAction:@selector(loadHistory:)])
 		return;
@@ -902,7 +903,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	}
 }
 
-- (IBAction)closeUsernameSheet:(id)sender
+-(IBAction)closeUsernameSheet:(id)sender
 {
 	if ([sender tag] == 1)
 	{
@@ -923,7 +924,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 #pragma mark -
 #pragma mark Last.fm Tag Loading
 
-- (IBAction)retrieveTags:(id)sender
+-(IBAction)retrieveTags:(id)sender
 {
 	if (![self ensureSavedDocumentBeforePerformingAction:@selector(retrieveTags:)])
 		return;
@@ -932,7 +933,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	[self runOperation:tagRetrievalOperation];
 }
 
-- (IBAction)showTopTags:(id)sender
+-(IBAction)showTopTags:(id)sender
 {
 	NSArray *tags = [self objectsForEntity:@"Tag" withPredicate:nil fetchLimit:0 ascending:NO inContext:[self managedObjectContext]];
 	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"countSum" ascending:NO];
@@ -940,7 +941,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	
 	for (LHTag *tag in [sortedTags subarrayWithRange:NSMakeRange(0, 100)])
 	{
-		NSLog(@"%u: %@", tag.countSum, tag.name);
+	NSLog(@"%lu: %@", (unsigned long)tag.countSum, tag.name);
 	}
 }
 
@@ -950,7 +951,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 #pragma mark -
 @implementation LHDocument (Player)
 
-- (BOOL)historyEntryIsWithinCurrentEvent:(LHHistoryEntry *)historyEntry
+-(BOOL)historyEntryIsWithinCurrentEvent:(LHHistoryEntry*)historyEntry
 {
 	BOOL withinDate = [self.currentEvent.eventStart compare:historyEntry.timestamp] == NSOrderedAscending && [self.currentEvent.eventEnd compare:historyEntry.timestamp] == NSOrderedDescending;
 	BOOL withinTime = self.currentEvent.eventStartTime <= historyEntry.timeValue && self.currentEvent.eventEndTime >= historyEntry.timeValue;
@@ -967,7 +968,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 		return NO;
 }
 
-- (BOOL)loadHistoryEntry:(LHHistoryEntry *)historyEntry
+-(BOOL)loadHistoryEntry:(LHHistoryEntry*)historyEntry
 {
 	// play track from iTunes
 	LHTrack *track = historyEntry.track;
@@ -1027,7 +1028,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return YES;
 }
 
-- (BOOL)loadNextAvailableHistoryEntryFromEntry:(LHHistoryEntry *)historyEntry ascending:(BOOL)ascending
+-(BOOL)loadNextAvailableHistoryEntryFromEntry:(LHHistoryEntry*)historyEntry ascending:(BOOL)ascending
 {
 	// always play in direction of timeline
 	if (historyView.flipTimeline && !self.chartsMode)
@@ -1143,7 +1144,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	return historyEntry != nil;
 }
 
-- (NSArray *)predicatesForEvent:(id <LHEvent>)event
+-(NSArray*)predicatesForEvent:(id <LHEvent>)event
 {
 	if (event)
 	{
@@ -1169,7 +1170,7 @@ NSString *LHDocumentDidCloseNotification = @"LHDocumentDidCloseNotification";
 	}
 }
 
-- (void)sound:(NSSound *)sound didFinishPlaying:(BOOL)finishedPlaying
+-(void)sound:(NSSound*)sound didFinishPlaying:(BOOL)finishedPlaying
 {
 	if (sound == self.currentSound && finishedPlaying) {
 		// play next track

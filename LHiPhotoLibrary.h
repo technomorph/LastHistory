@@ -26,13 +26,13 @@
 #endif
 }
 
-+ (LHiPhotoLibrary *)defaultLibrary;
++(LHiPhotoLibrary*)defaultLibrary;
 
-- (id)initWithURL:(NSURL *)libraryURL;
+-(id)initWithURL:(NSURL*)libraryURL;
 
-- (LHiPhotoPhoto *)imageForKey:(NSString *)key inRoll:(LHiPhotoRoll *)roll;
+-(LHiPhotoPhoto*)imageForKey:(NSString*)key inRoll:(LHiPhotoRoll*)roll;
 
-- (BOOL)loadLibrary;
+-(BOOL)loadLibrary;
 
 @property (readonly) NSURL *libraryURL;
 

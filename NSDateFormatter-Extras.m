@@ -13,7 +13,7 @@
 
 // returns the weekday number for the given weekday string reprensentation,
 // or NSNotFound if the string does not represent a weekday
-- (NSUInteger)weekdayForString:(NSString *)token
+-(NSUInteger)weekdayForString:(NSString*)token
 {
 	token = [token lowercaseString];
 	
@@ -39,7 +39,7 @@
 	return index == NSNotFound ? NSNotFound : ++index;
 }
 
-- (NSUInteger)monthForString:(NSString *)token
+-(NSUInteger)monthForString:(NSString*)token
 {
 	token = [token lowercaseString];
 	

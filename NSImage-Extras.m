@@ -10,7 +10,7 @@
 
 @implementation NSImage (Extras)
 
-- (CGImageRef)cgImage
+-(CGImageRef)cgImage
 {
 	CGImageRef image = CreateCGImageFromData([self TIFFRepresentation]);
 	if (image)
@@ -31,7 +31,7 @@ CGImageRef CreateCGImageFromData(NSData* data)
     sourceRef = CGImageSourceCreateWithData((CFDataRef)data, NULL);
     if(sourceRef) {
 		NSDictionary *options = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO]
-															forKey:(NSString *)kCGImageSourceShouldCache];
+															forKey:(NSString*)kCGImageSourceShouldCache];
         imageRef = CGImageSourceCreateImageAtIndex(sourceRef, 0, (CFDictionaryRef)options);
         CFRelease(sourceRef);
     }

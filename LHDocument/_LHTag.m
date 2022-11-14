@@ -8,12 +8,12 @@
 
 @implementation _LHTag
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++(id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Tag" inManagedObjectContext:moc_];
 }
 
-- (LHTagID*)objectID {
+-(LHTagID*)objectID {
 	return (LHTagID*)[super objectID];
 }
 
@@ -30,7 +30,7 @@
 @dynamic trackTags;
 
 	
-- (NSMutableSet*)trackTagsSet {
+-(NSMutableSet*)trackTagsSet {
 	[self willAccessValueForKey:@"trackTags"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"trackTags"];
 	[self didAccessValueForKey:@"trackTags"];
@@ -41,7 +41,7 @@
 
 
 
-+ (NSArray*)fetchTagsWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ {
++(NSArray*)fetchTagsWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ {
 	NSError *error = nil;
 	NSArray *result = [self fetchTagsWithName:moc_ name:name_ error:&error];
 	if (error) {
@@ -53,7 +53,7 @@
 	}
 	return result;
 }
-+ (NSArray*)fetchTagsWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ error:(NSError**)error_ {
++(NSArray*)fetchTagsWithName:(NSManagedObjectContext*)moc_ name:(NSString*)name_ error:(NSError**)error_ {
 	NSError *error = nil;
 	
 	NSManagedObjectModel *model = [[moc_ persistentStoreCoordinator] managedObjectModel];

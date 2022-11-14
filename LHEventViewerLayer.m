@@ -29,7 +29,7 @@
 @synthesize photoRollIndex=_photoRollIndex;
 @synthesize isPlaying=_isPlaying;
 
-+ (LHEventViewerLayer *)layerWithPhotoRoll:(LHiPhotoRoll *)roll
++(LHEventViewerLayer*)layerWithPhotoRoll:(LHiPhotoRoll*)roll
 {
 	LHEventViewerLayer *layer = [self layer];
 	layer.photoRoll = roll;
@@ -37,7 +37,7 @@
 	return layer;
 }
 
-+ (id <CAAction>)defaultActionForKey:(NSString *)key
++(id <CAAction>)defaultActionForKey:(NSString*)key
 {
 	if ([key isEqualToString:@"contents"])
 	{
@@ -51,7 +51,7 @@
 	return [super defaultActionForKey:key];
 }
 
-- (id<CAAction>)actionForKey:(NSString *)key
+-(id<CAAction>)actionForKey:(NSString*)key
 {
 	if ([key isEqualToString:kCAOnOrderIn])
 	{
@@ -67,7 +67,7 @@
 	return [super actionForKey:key];
 }
 
-- (CALayer *)buttonLayerWithName:(NSString *)layerName
+-(CALayer*)buttonLayerWithName:(NSString*)layerName
 {
 	CALayer *layer = [CALayer layer];
 	
@@ -83,7 +83,7 @@
 	return layer;
 }
 
-- (id)init
+-(id)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -112,7 +112,7 @@
 	return self;
 }
 
-- (id)initWithLayer:(id)layer
+-(id)initWithLayer:(id)layer
 {
 	self = [super initWithLayer:layer];
 	if (self != nil) {
@@ -124,7 +124,7 @@
 	return self;
 }
 
-- (void)drawLayer:(CALayer *)theLayer inContext:(CGContextRef)theContext
+-(void)drawLayer:(CALayer*)theLayer inContext:(CGContextRef)theContext
 {
 	CGMutablePathRef strokePath = CGPathCreateMutable();
 	CGMutablePathRef fillPath = CGPathCreateMutable();
@@ -193,12 +193,12 @@
 	CFRelease(fillPath);
 }
 
-- (void)setPhotoRollIndex:(NSInteger)newIndex
+-(void)setPhotoRollIndex:(NSInteger)newIndex
 {
 	NSArray *photos = self.photoRoll.photos;
 	
 	if (newIndex < 0)
-		newIndex = [photos count] - abs(newIndex);
+		newIndex = [photos count] - labs(newIndex);
 	newIndex = newIndex % [photos count];
 	
 	self.contents = (id)[[[photos objectAtIndex:newIndex] image] cgImage];
@@ -206,7 +206,7 @@
 	_photoRollIndex = newIndex;
 }
 
-- (void)setIsPlaying:(BOOL)value
+-(void)setIsPlaying:(BOOL)value
 {
 	_isPlaying = value;
 	if (_isPlaying) {
@@ -220,7 +220,7 @@
 	[playButton setNeedsDisplay];
 }
 
-- (void)onPlayTimer:(NSTimer *)timer
+-(void)onPlayTimer:(NSTimer*)timer
 {
 	self.photoRollIndex++;
 	
@@ -230,7 +230,7 @@
 												afterDelay:PLAY_TIMER_INTERVAL/2];
 }
 
-- (BOOL)handleMouseUpAtPoint:(CGPoint)mousePoint
+-(BOOL)handleMouseUpAtPoint:(CGPoint)mousePoint
 {
 	CALayer *hitLayer = [self hitTest:mousePoint];
 	

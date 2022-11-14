@@ -24,12 +24,12 @@
 
 @implementation LHCalendarStream
 
-+ (Class)nodeClass
++(Class)nodeClass
 {
 	return [CalEvent class];
 }
 
-- (id)initWithLayer:(id)layer
+-(id)initWithLayer:(id)layer
 {
 	self = [super initWithLayer:layer];
 	if (self != nil) {
@@ -40,13 +40,13 @@
 	return self;
 }
 
-- (void)setupLayer
+-(void)setupLayer
 {
 	self.anchorPoint = CGPointMake(0, 0);
 	self.bounds = CGRectMake(0, 0, self.superlayer.bounds.size.width, self.calendars.count * (EVENT_HEIGHT + EVENT_MARGIN));
 }
 
-- (void)generateNodes
+-(void)generateNodes
 {
 	[self removeAllSublayers];
 	
@@ -69,10 +69,10 @@
 	
 	[self layoutSublayers];
 	
-	NSLog(@"Generated %u calendar nodes", processedCount);
+	NSLog(@"Generated %lu calendar nodes", (unsigned long)processedCount);
 }
 
-- (void)layoutSublayers
+-(void)layoutSublayers
 {
 	if (self.superlayer.isHidden)
 		return;
@@ -91,7 +91,7 @@
 }
 
 
-- (NSArray *)calendars
+-(NSArray*)calendars
 {
 	if (!_calendars)
 		_calendars = [[CalCalendarStore defaultCalendarStore].calendars filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"type == %@", CalCalendarTypeLocal]];
@@ -99,7 +99,7 @@
 	return _calendars;
 }
 
-- (NSArray *)calendarEvents
+-(NSArray*)calendarEvents
 {
 	if (!_calendarEvents)
 	{

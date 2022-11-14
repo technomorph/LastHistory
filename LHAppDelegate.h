@@ -1,37 +1,36 @@
-//
-//  LHAppDelegate.h
-//  LastHistory
-//
-//  Created by Frederik Seiffert on 29.10.09.
-//  Copyright 2009 Frederik Seiffert. All rights reserved.
-//
+	//
+	//  LHAppDelegate.h
+	//  LastHistory
+	//
+	//  Created by Frederik Seiffert on 29.10.09.
+	//  Copyright 2009 Frederik Seiffert. All rights reserved.
+	//
 
 #import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 
 @class LFWebService;
 
-@interface LHAppDelegate : NSObject {
-	IBOutlet NSWindow *welcomeWindow;
-	IBOutlet NSTextField *usernameField;
-	IBOutlet NSPopUpButton *recentDocumentsButton;
-	
-	NSDate *_launchDate;
-	BOOL _busy;
-	LFWebService *_lfWebService;
-}
+@interface LHAppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) BOOL busy;
+@property (nonatomic) IBOutlet NSWindow *welcomeWindow;
+@property (nonatomic) IBOutlet NSTextField *usernameField;
+@property (nonatomic) IBOutlet NSPopUpButton *recentDocumentsButton;
 
-@property (readonly) LFWebService *lfWebService;
+@property (nonatomic) BOOL busy;
+@property (nonatomic) LFWebService* lfWebService;
+@property (nonatomic) NSDate *launchDate;
 
-- (IBAction)showWelcomeWindow:(id)sender;
-- (IBAction)closeWelcomeWindow:(id)sender;
 
-- (IBAction)openSurvey:(id)sender;
-- (IBAction)openWebsite:(id)sender;
+-(IBAction)showWelcomeWindow:(id)sender;
+-(IBAction)closeWelcomeWindow:(id)sender;
 
-- (IBAction)lfAuthenticate:(id)sender;
+-(IBAction)openSurvey:(id)sender;
+-(IBAction)openWebsite:(id)sender;
 
-- (BOOL)lfCheckUsername:(NSString *)username error:(NSError **)outError;
+-(IBAction)lfAuthenticate:(id)sender;
+
+-(BOOL)lfCheckUsername:(NSString*)username error:(NSError **)outError;
 
 @end

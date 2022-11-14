@@ -21,7 +21,7 @@
 @synthesize progressIndeterminate=_progressIndeterminate;
 
 
-- (id)initWithDocument:(LHDocument *)document
+-(id)initWithDocument:(LHDocument*)document
 {
 	self = [super init];
 	if (self != nil) {
@@ -35,7 +35,7 @@
 	return self;
 }
 
-- (NSManagedObjectContext *)context
+-(NSManagedObjectContext*)context
 {
 	if (!_context)
 	{
@@ -55,7 +55,7 @@
 	return _context;
 }
 
-- (void)finalize
+-(void)finalize
 {
 	[self removeObserver:self forKeyPath:@"isExecuting"];
 	[self removeObserver:self forKeyPath:@"isFinished"];
@@ -63,7 +63,7 @@
 	[super finalize];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+-(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
 	if ([keyPath isEqualToString:@"isExecuting"] || [keyPath isEqualToString:@"isFinished"])
 	{
@@ -73,7 +73,7 @@
 	}
 }
 
-- (void)contextDidChange:(NSNotification *)notification 
+-(void)contextDidChange:(NSNotification*)notification 
 {
 	// merge changes with document context
 	[_document performSelectorOnMainThread:@selector(mergeChanges:)
@@ -81,7 +81,7 @@
 							 waitUntilDone:NO];
 }
 
-- (BOOL)saveContext
+-(BOOL)saveContext
 {
 	NSError *error = nil;
 	BOOL result = [_context save:&error];
@@ -91,12 +91,12 @@
 	return result;
 }
 
-- (void)process
+-(void)process
 {
 	// perform task
 }
 
-- (void)main
+-(void)main
 {
 	@try {
 		[self process];

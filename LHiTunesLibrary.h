@@ -20,19 +20,19 @@
 	SBiTunesPlaylist *_masterPlaylist;
 }
 
-+ (LHiTunesLibrary *)defaultLibrary;
++(LHiTunesLibrary*)defaultLibrary;
 
-- (id)initWithURL:(NSURL *)libraryURL;
+-(id)initWithURL:(NSURL*)libraryURL;
 
 @property (readonly) NSURL *libraryURL;
 @property (readonly) NSDictionary *tracks;
 
-- (NSDictionary *)trackForTrack:(NSString *)name artist:(NSString *)artist;
+-(NSDictionary*)trackForTrack:(NSString*)name artist:(NSString*)artist;
 
 
 // iTunes Scripting
 
-- (void)revealTrack:(NSDictionary *)track;
-- (void)createPlaylist:(NSString *)name withTracks:(NSArray *)tracks;
+-(void)revealTrack:(NSDictionary*)track;
+-(void)createPlaylist:(NSString*)name withTracks:(NSArray*)tracks;
 
 @end

@@ -21,15 +21,15 @@
 @property (readonly) LHHistoryView __weak *view;
 @property (retain) CALayer *highlightedNode;
 
-+ (Class)nodeClass;
++(Class)nodeClass;
 
-- (id)initWithView:(LHHistoryView *)view;
+-(id)initWithView:(LHHistoryView*)view;
 
-- (void)setupLayer;
-- (void)generateNodes;
+-(void)setupLayer;
+-(void)generateNodes;
 
-- (void)removeAllSublayers;
+-(void)removeAllSublayers;
 
-- (void)mouseMoved:(NSEvent *)theEvent onLayer:(CALayer *)hitLayer;
+-(void)mouseMoved:(NSEvent*)theEvent onLayer:(CALayer*)hitLayer;
 
 @end

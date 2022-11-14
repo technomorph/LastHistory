@@ -47,7 +47,7 @@
 @synthesize caption=_caption;
 @synthesize timestamp=_timestamp;
 
-- (id)initWithDictionary:(NSDictionary *)imageDict inRoll:(LHiPhotoRoll *)roll
+-(id)initWithDictionary:(NSDictionary*)imageDict inRoll:(LHiPhotoRoll*)roll
 {
 	self = [super init];
 	if (self != nil) {
@@ -62,12 +62,12 @@
 	return self;
 }
 
-- (NSImage *)image
+-(NSImage*)image
 {
 	return [[NSImage alloc] initByReferencingFile:_imagePath];
 }
 
-- (NSImage *)thumb
+-(NSImage*)thumb
 {
 	return [[NSImage alloc] initByReferencingFile:_thumbPath];
 }

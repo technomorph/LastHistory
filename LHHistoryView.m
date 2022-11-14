@@ -49,13 +49,13 @@
 
 
 @interface LHHistoryView ()
-- (void)setCurrentEvent:(id <LHEvent, NSObject>)event;
+-(void)setCurrentEvent:(id <LHEvent, NSObject>)event;
 
-- (void)setupStreams;
-- (void)setupReferenceStreams;
-- (void)generateLabels;
-- (void)repositionCurrentEventLayer;
-- (NSAttributedString *)infoStringForLayerData:(id)data;
+-(void)setupStreams;
+-(void)setupReferenceStreams;
+-(void)generateLabels;
+-(void)repositionCurrentEventLayer;
+-(NSAttributedString*)infoStringForLayerData:(id)data;
 @end
 
 
@@ -73,7 +73,7 @@
 @synthesize mouseOverLayer=_mouseOverLayer;
 
 
-- (void)awakeFromNib
+-(void)awakeFromNib
 {
 	// set initial values
 	self.timeScaleFactor = 0.8;
@@ -96,19 +96,19 @@
 }
 
 // called by LHDocument when window controller is loaded
-- (void)windowControllerDidLoad
+-(void)windowControllerDidLoad
 {
 	[self.document addObserver:self forKeyPath:@"historyEntries" options:NSKeyValueObservingOptionInitial context:NULL];
 	[self.document addObserver:self forKeyPath:@"currentEvent" options:(NSKeyValueObservingOptionNew) context:NULL];	
 }
 
-- (void)layoutIfNeeded
+-(void)layoutIfNeeded
 {
-	LHListeningHistoryStream *listeningHistory = (LHListeningHistoryStream *)[self streamWithName:LISTENING_HISTORY_STREAM];
+	LHListeningHistoryStream *listeningHistory = (LHListeningHistoryStream*)[self streamWithName:LISTENING_HISTORY_STREAM];
 	
 	// reset highlights
 	CALayer *mouseOverLayer = self.mouseOverLayer;
-	id <LHEvent> highlightedEvent = self.highlightedEvent;
+	id<LHEvent> highlightedEvent = self.highlightedEvent;
 	CALayer *highlightedHistoryLayer = listeningHistory.highlightedNode;
 	self.mouseOverLayer = nil;
 	self.highlightedEvent = nil;
@@ -137,18 +137,18 @@
 	[self scrollToDate:highlightedNode.timestamp];
 }
 
-- (void)insertObjectsWithIDs:(NSSet *)objectIDs
+-(void)insertObjectsWithIDs:(NSSet*)objectIDs
 {
 	NSManagedObjectContext *context = [self.document managedObjectContext];
 	
 	for (NSManagedObjectID *objectID in objectIDs)
 	{
 		NSManagedObject *object = [context objectWithID:objectID];
-		[(LHListeningHistoryStream *)[self streamWithName:LISTENING_HISTORY_STREAM] insertObject:object];
+		[(LHListeningHistoryStream*)[self streamWithName:LISTENING_HISTORY_STREAM] insertObject:object];
 	}
 }
 
-- (void)updateObjectsWithIDs:(NSSet *)objectIDs
+-(void)updateObjectsWithIDs:(NSSet*)objectIDs
 {
 	NSManagedObjectContext *context = [self.document managedObjectContext];
 	
@@ -156,11 +156,11 @@
 	{
 		NSManagedObject *object = [context objectWithID:objectID];
 		[context refreshObject:object mergeChanges:YES];
-		[(LHListeningHistoryStream *)[self streamWithName:LISTENING_HISTORY_STREAM] updateObject:object];
+		[(LHListeningHistoryStream*)[self streamWithName:LISTENING_HISTORY_STREAM] updateObject:object];
 	}
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+-(void)observeValueForKeyPath:(NSString*)keyPath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
 	if ([keyPath isEqualToString:@"timeScaleFactor"])
 	{
@@ -199,14 +199,14 @@
 	}
 }
 
-- (BOOL)enterFullScreenMode:(NSScreen *)screen withOptions:(NSDictionary *)options
+-(BOOL)enterFullScreenMode:(NSScreen*)screen withOptions:(NSDictionary*)options
 {
 	BOOL result = [super enterFullScreenMode:screen withOptions:options];
 	[self layoutIfNeeded];
 	return result;
 }
 
-- (void)exitFullScreenModeWithOptions:(NSDictionary *)options
+-(void)exitFullScreenModeWithOptions:(NSDictionary*)options
 {
 	[super exitFullScreenModeWithOptions:options];
 	[self layoutIfNeeded];
@@ -215,47 +215,47 @@
 #pragma mark -
 #pragma mark Setters & Actions
 
-- (NSDate *)timelineStart
+-(NSDate*)timelineStart
 {
 	if (!_timelineStart)
 		_timelineStart = self.flipTimeline ? self.document.lastHistoryEntry.day : self.document.firstHistoryEntry.day;
 	return _timelineStart;
 }
 
-- (NSDate *)timelineEnd
+-(NSDate*)timelineEnd
 {
 	if (!_timelineEnd)
 		_timelineEnd = self.flipTimeline ? self.document.firstHistoryEntry.day : self.document.lastHistoryEntry.day;
 	return _timelineEnd;
 }
 
-- (void)setTimeScaleFactor:(float)value
+-(void)setTimeScaleFactor:(float)value
 {
 	// make sure value is within bounds
 	_timeScaleFactor = MIN(TIME_SCALE_FACTOR_MAX, MAX(TIME_SCALE_FACTOR_MIN, value));
 }
 
-- (IBAction)increaseTimeScaleFactor:(id)sender
+-(IBAction)increaseTimeScaleFactor:(id)sender
 {
 	self.timeScaleFactor += TIME_SCALE_FACTOR_INCREASE;
 }
 
-- (IBAction)decreaseTimeScaleFactor:(id)sender
+-(IBAction)decreaseTimeScaleFactor:(id)sender
 {
 	self.timeScaleFactor -= TIME_SCALE_FACTOR_INCREASE;
 }
 
-- (IBAction)increaseNodeScaleFactor:(id)sender
+-(IBAction)increaseNodeScaleFactor:(id)sender
 {
 	self.nodeScaleFactor += NODE_SCALE_FACTOR_INCREASE;
 }
 
-- (IBAction)decreaseNodeScaleFactor:(id)sender
+-(IBAction)decreaseNodeScaleFactor:(id)sender
 {
 	self.nodeScaleFactor -= NODE_SCALE_FACTOR_INCREASE;
 }
 
-- (void)scrollToDate:(NSDate *)date
+-(void)scrollToDate:(NSDate*)date
 {
 	if (date)
 	{
@@ -265,13 +265,13 @@
 		} else if ([date isEqualToDate:self.document.lastHistoryEntry.timestamp]) {
 			position.x = [self xPositionForDate:date] - _scrollLayer.bounds.size.width + SCROLL_END_PADDING;
 		} else {
-			position.x = [self xPositionForDate:date] - (_scrollLayer.bounds.size.width / 2.0);
+			position.x = [self xPositionForDate:date] -(_scrollLayer.bounds.size.width / 2.0);
 		}
 		[_scrollLayer scrollToPoint:position];
 	}
 }
 
-- (void)setCurrentEvent:(id <LHEvent, NSObject>)event
+-(void)setCurrentEvent:(id <LHEvent, NSObject>)event
 {
 	if (event && ![[NSNull null] isEqual:event])
 	{
@@ -309,7 +309,7 @@
 	}
 }
 
-- (void)setHighlightedEvent:(id <LHEvent>)newEvent
+-(void)setHighlightedEvent:(id <LHEvent>)newEvent
 {
 	if (_highlightedEvent != newEvent)
 	{
@@ -334,7 +334,7 @@
 	}
 }
 
-- (void)setMouseOverLayer:(CALayer *)newLayer
+-(void)setMouseOverLayer:(CALayer*)newLayer
 {
 	if (_mouseOverLayer != newLayer)
 	{
@@ -375,7 +375,7 @@
 	}
 }
 
-- (NSSet *)streams
+-(NSSet*)streams
 {
 	NSMutableSet *result = [NSMutableSet setWithCapacity:_scrollLayer.sublayers.count];
 	for (CALayer *layer in _scrollLayer.sublayers)
@@ -386,12 +386,12 @@
 	return result;
 }
 
-- (LHStreamLayer *)streamWithName:(NSString *)name
+-(LHStreamLayer*)streamWithName:(NSString*)name
 {
 	for (CALayer *layer in _scrollLayer.sublayers)
 	{
 		if ([layer isKindOfClass:[LHStreamLayer class]] && [layer.name isEqualToString:name])
-			return (LHStreamLayer *)layer;
+			return (LHStreamLayer*)layer;
 	}
 	return nil;
 }
@@ -400,7 +400,7 @@
 #pragma mark -
 #pragma mark Event Handling
 
-- (CALayer *)hitLayerForEvent:(NSEvent *)theEvent hitPoint:(CGPoint *)outHitPoint
+-(CALayer*)hitLayerForEvent:(NSEvent*)theEvent hitPoint:(CGPoint*)outHitPoint
 {
 	// convert mouse coordianates
 	CGPoint mousePointInView = NSPointToCGPoint([self convertPoint:theEvent.locationInWindow fromView:nil]);
@@ -419,29 +419,29 @@
 	return hitLayer;
 }
 
-- (BOOL)mouseDownCanMoveWindow
+-(BOOL)mouseDownCanMoveWindow
 {
 	return NO;
 }
 
-- (BOOL)acceptsFirstResponder
+-(BOOL)acceptsFirstResponder
 {
 	return YES;
 }
 
-- (void)didResize:(NSNotification *)notification
+-(void)didResize:(NSNotification*)notification
 {
 	// resize in next run-loop run, as at this point our layer hasn't update its size yet
 	if (![self inLiveResize])
 		[self performSelector:@selector(layoutIfNeeded) withObject:nil afterDelay:0.0];
 }
 
-- (void)viewDidEndLiveResize
+-(void)viewDidEndLiveResize
 {
 	[self performSelector:@selector(layoutIfNeeded) withObject:nil afterDelay:0.0];
 }
 
-- (void)keyDown:(NSEvent *)theEvent
+-(void)keyDown:(NSEvent*)theEvent
 {
 	if (theEvent.keyCode == 53) // escape
 	{
@@ -457,13 +457,13 @@
 	}
 }
 
-- (void)magnifyWithEvent:(NSEvent *)theEvent
+-(void)magnifyWithEvent:(NSEvent*)theEvent
 {
 	CGFloat scaleDelta = theEvent.deltaZ * 0.01;
 	self.timeScaleFactor += scaleDelta;
 }
 
-- (void)scrollWheel:(NSEvent *)theEvent
+-(void)scrollWheel:(NSEvent*)theEvent
 {
 //	NSLog(@"x: %f, y: %f", theEvent.deltaX, theEvent.deltaY);
 	
@@ -483,7 +483,7 @@
 	}
 }
 
-- (void)mouseDown:(NSEvent *)theEvent
+-(void)mouseDown:(NSEvent*)theEvent
 {
 	// ignore in viewing mode
 	if (_currentEventViewerLayer)
@@ -528,7 +528,7 @@
 	}
 }
 
-- (void)mouseUp:(NSEvent *)theEvent
+-(void)mouseUp:(NSEvent*)theEvent
 {
 	if (_currentEventViewerLayer)
 	{
@@ -560,11 +560,11 @@
 			CGFloat endPoint = startPoint + _selectionRectLayer.bounds.size.width;
 			
 			if (self.flipTimeline)
-				swap((void *)&startPoint, (void *)&endPoint);
+				swap((void*)&startPoint, (void*)&endPoint);
 			
 			NSTimeInterval referenceDate = [self.timelineStart timeIntervalSinceReferenceDate];
-			startDate = [NSDate dateWithTimeIntervalSinceReferenceDate:referenceDate + (startPoint / (self.timeScaleFactor / SECONDS_PER_DAY)) * (self.flipTimeline ? -1.0: 1.0)];
-			endDate = [NSDate dateWithTimeIntervalSinceReferenceDate:referenceDate + (endPoint / (self.timeScaleFactor / SECONDS_PER_DAY)) * (self.flipTimeline ? -1.0: 1.0)];
+			startDate = [NSDate dateWithTimeIntervalSinceReferenceDate:referenceDate +(startPoint / (self.timeScaleFactor / SECONDS_PER_DAY)) * (self.flipTimeline ? -1.0: 1.0)];
+			endDate = [NSDate dateWithTimeIntervalSinceReferenceDate:referenceDate +(endPoint / (self.timeScaleFactor / SECONDS_PER_DAY)) * (self.flipTimeline ? -1.0: 1.0)];
 		}
 		
 		LHTimeEvent *event = [[LHTimeEvent alloc] initWithStartDate:startDate endDate:endDate startTime:startTime endTime:endTime];
@@ -581,7 +581,7 @@
 		id hitData = [hitLayer valueForKey:LAYER_DATA_KEY];
 		
 		if ([hitData isKindOfClass:[LHHistoryEntry class]]) {
-			LHHistoryEntry *historyEntry = (LHHistoryEntry *)hitData;
+			LHHistoryEntry *historyEntry = (LHHistoryEntry*)hitData;
 			success = [self.document playHistoryEntry:historyEntry];
 		} else if ([hitData conformsToProtocol:@protocol(LHEvent)]) {
 			id <LHEvent> event = hitData;
@@ -611,7 +611,7 @@
 	_crosshairYLayer.hidden = NO;
 }
 
-- (void)mouseDragged:(NSEvent *)theEvent
+-(void)mouseDragged:(NSEvent*)theEvent
 {
 	isDragging = YES;
 	_crosshairXLayer.hidden = YES;
@@ -642,7 +642,7 @@
 	}
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent
+-(void)mouseMoved:(NSEvent*)theEvent
 {
 	CGPoint hitPoint;
 	CALayer *hitLayer = [self hitLayerForEvent:theEvent hitPoint:&hitPoint];
@@ -678,19 +678,19 @@
 	self.highlightedEvent = newHighlightedEvent;
 }
 
-- (void)rightMouseDown:(NSEvent *)theEvent
+-(void)rightMouseDown:(NSEvent*)theEvent
 {
 	// forward
 	[self mouseDown:theEvent];
 }
 
-- (void)rightMouseUp:(NSEvent *)theEvent
+-(void)rightMouseUp:(NSEvent*)theEvent
 {
 	// forward
 	[self mouseUp:theEvent];
 }
 
-- (void)rightMouseDragged:(NSEvent *)theEvent
+-(void)rightMouseDragged:(NSEvent*)theEvent
 {
 	// forward
 	[self mouseDragged:theEvent];
@@ -700,13 +700,13 @@
 #pragma mark -
 #pragma mark View Utilities
 
-- (CGFloat)xPositionForDate:(NSDate *)date
+-(CGFloat)xPositionForDate:(NSDate*)date
 {
 	NSTimeInterval time = self.flipTimeline ? [self.timelineStart timeIntervalSinceDate:date] : [date timeIntervalSinceDate:self.timelineStart];
 	return time * (self.timeScaleFactor / SECONDS_PER_DAY) + STREAM_PADDING_X;
 }
 
-- (CGFloat)yPositionForTime:(NSInteger)time
+-(CGFloat)yPositionForTime:(NSInteger)time
 {
 	return (_labelsLayerY.bounds.size.height / SECONDS_PER_DAY) * (SECONDS_PER_DAY - time);
 }
@@ -715,7 +715,7 @@
 #pragma mark -
 #pragma mark Drawing
 
-- (void)setupStreams
+-(void)setupStreams
 {
 	// make the view layer-backed
 	CALayer *mainLayer = self.layer;
@@ -821,7 +821,7 @@
 	[self scrollToDate:self.document.firstHistoryEntry.timestamp];
 }
 
-- (void)setupReferenceStreams
+-(void)setupReferenceStreams
 {
 	NSMutableSet *streams = [NSMutableSet setWithCapacity:2];
 	
@@ -864,7 +864,7 @@
 	[streams makeObjectsPerformSelector:@selector(generateNodes)];
 }
 
-- (void)generateLabels
+-(void)generateLabels
 {
 	// clear all existing layers
 	[[_labelsLayerX.sublayers copy] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
@@ -933,7 +933,7 @@
 		NSDictionary *stringAttrs = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont boldSystemFontOfSize:24.0], NSFontAttributeName, [NSColor grayColor], NSForegroundColorAttributeName, nil];
 		for (NSInteger year = startYear; year <= endYear; year++)
 		{
-			NSAttributedString *yearString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", year]
+		NSAttributedString *yearString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%ld", (long)year]
 																			 attributes:stringAttrs];
 			CATextLayer *layer = [CATextLayer layer];
 			layer.string = yearString;
@@ -967,7 +967,7 @@
 			CGFloat positionY = [self yPositionForTime:hour*SECONDS_PER_HOUR];
 			NSRectFill(NSMakeRect(0.0, positionY, markingImageSize.width, 1.0));
 			
-			NSString *label = [NSString stringWithFormat:@"%u h", hour];
+		NSString *label = [NSString stringWithFormat:@"%lu h", (unsigned long)hour];
 			[label drawAtPoint:NSMakePoint(2.0, positionY + 2.0)
 				withAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSColor grayColor], NSForegroundColorAttributeName, nil]];
 		}
@@ -977,7 +977,7 @@
 	}
 }
 
-- (void)repositionCurrentEventLayer
+-(void)repositionCurrentEventLayer
 {
 	id <LHEvent> event = [_currentEventHighlightLayer valueForKey:LAYER_DATA_KEY];
 	CALayer *superlayer = nil;
@@ -1007,7 +1007,7 @@
 	_currentEventHighlightLayer.position = position;
 }
 
-- (NSAttributedString *)infoStringForLayerData:(id)data
+-(NSAttributedString*)infoStringForLayerData:(id)data
 {
 	NSString *infoStringText = nil;
 	NSRange infoStringLargeRange = NSMakeRange(0, 0);
@@ -1018,16 +1018,16 @@
 	
 	if ([data isKindOfClass:[LHHistoryEntry class]])
 	{
-		LHHistoryEntry *historyEntry = (LHHistoryEntry *)data;
+		LHHistoryEntry *historyEntry = (LHHistoryEntry*)data;
 		LHTrack *track = historyEntry.track;
 		[outputFormatter setTimeStyle:NSDateFormatterMediumStyle];
 		
 		NSString *titleText = [NSString stringWithFormat:@"%@\n%@", track.name, track.artist.name];
-		NSString *text = [NSString stringWithFormat:@"%@\n%@%@%@\nPlays: %u, Weight: %.2f\nGenre: %@\n",
-						  titleText, 
-						  (track.album ? track.album.name : @""), (track.album ? @"\n" : @""),
-						  [outputFormatter stringFromDate:historyEntry.timestamp],
-						  track.trackCount, [historyEntry weightValue],
+	NSString *text = [NSString stringWithFormat:@"%@\n%@%@%@\nPlays: %lu, Weight: %.2f\nGenre: %@\n",
+					  titleText, 
+					  (track.album ? track.album.name : @""), (track.album ? @"\n" : @""),
+					  [outputFormatter stringFromDate:historyEntry.timestamp],
+					  (unsigned long)track.trackCount, [historyEntry weightValue],
 						  track.genre];
 		NSString *smallText = [NSString stringWithFormat:@"Tags: %@", [track tagsStringWrappedAt:80]];
 		infoStringText = [text stringByAppendingString:smallText];
@@ -1037,18 +1037,18 @@
 	}
 	else if ([data isKindOfClass:[CalEvent class]])
 	{
-		CalEvent *event = (CalEvent *)data;
+		CalEvent *event = (CalEvent*)data;
 		
 		NSString *titleText = [NSString stringWithFormat:@"%@\n%@ - %@",
 							   event.title,
 							   [outputFormatter stringFromDate:event.startDate], [outputFormatter stringFromDate:event.endDate]];
-		infoStringText = [NSString stringWithFormat:@"%@\n%u history entries", titleText, [self.document numberOfHistoryEntriesForEvent:event]];
+	infoStringText = [NSString stringWithFormat:@"%@\n%lu history entries", titleText, (unsigned long)[self.document numberOfHistoryEntriesForEvent:event]];
 		infoStringLargeRange = NSMakeRange(0, titleText.length);
 		infoStringBoldRange = NSMakeRange(0, event.title.length);
 	}
 	else if ([data isKindOfClass:[LHiPhotoRoll class]])
 	{
-		LHiPhotoRoll *roll = (LHiPhotoRoll *)data;
+		LHiPhotoRoll *roll = (LHiPhotoRoll*)data;
 		
 		NSString *startDate = [outputFormatter stringFromDate:roll.eventStart];
 		NSString *endDate = [outputFormatter stringFromDate:roll.eventEnd];
@@ -1057,7 +1057,7 @@
 			dateString = [NSString stringWithFormat:@"%@ - %@", startDate, endDate];
 		
 		NSString *titleText = [NSString stringWithFormat:@"%@\n%@", roll.name, dateString];
-		infoStringText = [NSString stringWithFormat:@"%@\n%u history entries\n%u photos", titleText, [self.document numberOfHistoryEntriesForEvent:roll], roll.photos.count];
+	infoStringText = [NSString stringWithFormat:@"%@\n%lu history entries\n%lu photos", titleText, (unsigned long)[self.document numberOfHistoryEntriesForEvent:roll], (unsigned long)roll.photos.count];
 		infoStringLargeRange = NSMakeRange(0, titleText.length);
 		infoStringBoldRange = NSMakeRange(0, roll.name.length);
 	}

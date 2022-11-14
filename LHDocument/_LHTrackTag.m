@@ -8,12 +8,12 @@
 
 @implementation _LHTrackTag
 
-+ (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
++(id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"TrackTag" inManagedObjectContext:moc_];
 }
 
-- (LHTrackTagID*)objectID {
+-(LHTrackTagID*)objectID {
 	return (LHTrackTagID*)[super objectID];
 }
 
@@ -24,12 +24,12 @@
 
 
 
-- (short)countValue {
+-(short)countValue {
 	NSNumber *result = [self count];
 	return result ? [result shortValue] : 0;
 }
 
-- (void)setCountValue:(short)value_ {
+-(void)setCountValue:(short)value_ {
 	[self setCount:[NSNumber numberWithShort:value_]];
 }
 

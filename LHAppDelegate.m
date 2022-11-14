@@ -7,7 +7,6 @@
 //
 
 #import "LHAppDelegate.h"
-
 #import "LHDocument.h"
 #import "LFWebService.h"
 
@@ -28,11 +27,13 @@
 
 @implementation LHAppDelegate
 
-@synthesize busy=_busy;
+@synthesize busy;
+@synthesize launchDate;
+@synthesize lfWebService;
 
-- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
+-(void)applicationWillFinishLaunching:(NSNotification*)aNotification
 {
-	_launchDate = [NSDate date];
+	self.launchDate = [NSDate date];
 	
 	// register for document opening/closing notifications to show/hide welcome window
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
@@ -41,18 +42,18 @@
 	[nc addObserver:self selector:@selector(documentDidClose:) name:LHDocumentDidCloseNotification object:nil];
 }
 
-- (BOOL)applicationOpenUntitledFile:(NSApplication *)theApplication
+-(BOOL)applicationOpenUntitledFile:(NSApplication*)theApplication
 {
 	[self showWelcomeWindow:nil];
 	return YES;
 }
 
 #if SURVEY_ASK
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+-(NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication*)sender
 {
 	// ask about survey
 	if (![[NSUserDefaults standardUserDefaults] boolForKey:SURVEY_ASKED_DEFAULT]
-		&& [[NSDate date] timeIntervalSinceDate:_launchDate] >= SURVEY_MIN_USAGE_TIME)
+		&& [[NSDate date] timeIntervalSinceDate:self.launchDate] >= SURVEY_MIN_USAGE_TIME)
 	{
 		NSInteger alertResult = NSRunInformationalAlertPanel(NSLocalizedString(@"LastHistory Usage Survey", nil),
 															 NSLocalizedString(@"Thank you for using LastHistory. Being part of a research project, we would appreciate your feedback on the application.\n\nPlease take the time to fill out a short survey about your usage of the application. The survey will only take 5-10 minutes to complete.\n\nYou can also always go back to the survey at a later time from the \"LastHistory\" menu.\n", nil),
@@ -69,18 +70,18 @@
 }
 #endif
 
-- (IBAction)openSurvey:(id)sender
+-(IBAction)openSurvey:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:SURVEY_URL]];
 }
 
-- (IBAction)openWebsite:(id)sender
+-(IBAction)openWebsite:(id)sender
 {
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:WEBSITE_URL]];
 }
 
 
-- (NSMenu *)recentDocumentsMenu
+-(NSMenu*)recentDocumentsMenu
 {
 	NSArray *recentDocuments = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
 	if (![recentDocuments count])
@@ -112,7 +113,7 @@
 	return menu;
 }
 
-- (void)openRecentItem:(id)sender
+-(void)openRecentItem:(id)sender
 {
 	NSURL *url = [sender representedObject];
 	NSError *error = nil;
@@ -121,7 +122,7 @@
 		[NSApp presentError:error];
 }
 
-- (IBAction)showWelcomeWindow:(id)sender
+-(IBAction)showWelcomeWindow:(id)sender
 {
 	if (![welcomeWindow isVisible])
 	{
@@ -135,7 +136,7 @@
 	}
 }
 
-- (IBAction)closeWelcomeWindow:(id)sender
+-(IBAction)closeWelcomeWindow:(id)sender
 {
 	NSInteger tag = [sender respondsToSelector:@selector(tag)] ? [sender tag] : -1;
 	if (tag == 1)	// ok
@@ -171,7 +172,7 @@ fail:
 	self.busy = NO;
 }
 
-- (void)documentWillOpen:(NSNotification *)sender
+-(void)documentWillOpen:(NSNotification*)sender
 {
 	NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
 	if ([documents count] == 0)
@@ -180,7 +181,7 @@ fail:
 	self.busy = YES;
 }
 
-- (void)documentDidClose:(NSNotification *)sender
+-(void)documentDidClose:(NSNotification*)sender
 {
 	NSArray *documents = [[NSDocumentController sharedDocumentController] documents];
 	if ([documents count] == 0)
@@ -188,7 +189,7 @@ fail:
 }
 
 
-- (IBAction)lfAuthenticate:(id)sender
+-(IBAction)lfAuthenticate:(id)sender
 {
 	LFWebService *webService = self.lfWebService;
 	
@@ -227,20 +228,20 @@ fail:
 	}
 }
 
-- (LFWebService *)lfWebService
+-(LFWebService*)lfWebService
 {
-	if (!_lfWebService) {
+	if (!self.lfWebService) {
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		_lfWebService = [[LFWebService alloc] initWithApiKey:LF_API_KEY
+		self.lfWebService = [[LFWebService alloc] initWithApiKey:LF_API_KEY
 													  secret:LF_SECRET
 													userName:[defaults stringForKey:LF_DEFAULTS_USER_NAME]
 												  sessionKey:[defaults stringForKey:LF_DEFAULTS_SESSION_KEY]];
 	}
 	
-	return _lfWebService;
+	return self.lfWebService;
 }
 
-- (BOOL)lfCheckUsername:(NSString *)username error:(NSError **)outError
+-(BOOL)lfCheckUsername:(NSString*)username error:(NSError **)outError
 {
 	LFWebService *webService = self.lfWebService;
 	

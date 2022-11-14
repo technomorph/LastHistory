@@ -2,7 +2,7 @@
 
 @implementation LHTag
 
-- (NSUInteger)countSum
+-(NSUInteger)countSum
 {
 	return [[self valueForKeyPath:@"trackTags.@sum.count"] unsignedIntValue];
 }

@@ -12,7 +12,7 @@
 
 @implementation NSString (MD5)
 
-- (NSString *)md5
+-(NSString*)md5
 {
 	const char *cStr = [self UTF8String];
 	unsigned char result[CC_MD5_DIGEST_LENGTH];

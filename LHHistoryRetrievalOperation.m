@@ -24,7 +24,7 @@
 
 @synthesize username=_username;
 
-- (id)initWithDocument:(LHDocument *)document andUsername:(NSString *)username
+-(id)initWithDocument:(LHDocument*)document andUsername:(NSString*)username
 {
 	self = [super initWithDocument:document];
 	if (self != nil) {
@@ -33,7 +33,7 @@
 	return self;
 }
 
-- (BOOL)processTrack:(NSXMLElement *)trackElement intoHistoryEntry:(LHHistoryEntry **)outHistoryEntry
+-(BOOL)processTrack:(NSXMLElement*)trackElement intoHistoryEntry:(LHHistoryEntry **)outHistoryEntry
 {
 	NSManagedObjectContext *context = self.context;
 	
@@ -114,7 +114,7 @@
 	return YES;
 }
 
-- (void)process
+-(void)process
 {
 	NSAssert(_username, @"No username given");
 	
@@ -158,7 +158,7 @@
 		}
 		
 		// fetch page
-		[params setValue:[NSString stringWithFormat:@"%u", ++page] forKey:@"page"];
+	[params setValue:[NSString stringWithFormat:@"%lu", (unsigned long)++page] forKey:@"page"];
 		
 		NSError *error = nil;
 		NSXMLDocument *pageXML = [webService callMethod:@"user.getRecentTracks" withParameters:params error:&error];
@@ -173,7 +173,7 @@
 		
 			if (self.document.historyEntriesCount == 0) {
 				// get last history entry to define timespan
-				[params setValue:[NSString stringWithFormat:@"%u", totalPages] forKey:@"page"];
+				[params setValue:[NSString stringWithFormat:@"%lu", (unsigned long)totalPages] forKey:@"page"];
 				NSXMLDocument *lastPageXML = [webService callMethod:@"user.getRecentTracks" withParameters:params error:&error];
 				if (!lastPageXML)
 				{

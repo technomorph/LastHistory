@@ -6,7 +6,7 @@
 
 @implementation LHTrack
 
-+ (NSArray *)genreTagsMappings
++(NSArray*)genreTagsMappings
 {
 	static NSArray *genreTagsMappings = nil;
 	if (!genreTagsMappings) {
@@ -16,40 +16,40 @@
 	return genreTagsMappings;
 }
 
-+ (NSArray *)genres
++(NSArray*)genres
 {
 	return [[self genreTagsMappings] valueForKey:@"genre"];
 }
 
-+ (NSUInteger)genreIndexForGenre:(NSString *)genre
++(NSUInteger)genreIndexForGenre:(NSString*)genre
 {
 	return [[self genres] indexOfObject:genre];
 }
 
 
-- (NSString *)displayName
+-(NSString*)displayName
 {
 	return [NSString stringWithFormat:@"%@ - %@", self.artist.name, self.name];
 }
 
-- (NSString *)trackID
+-(NSString*)trackID
 {
 	// artist & name, always lowercase
 	return [self.displayName lowercaseString];
 }
 
-- (NSUInteger)trackCount
+-(NSUInteger)trackCount
 {
 	return [[self valueForKeyPath:@"historyEntries.@count"] unsignedIntegerValue];
 }
 
-- (NSArray *)sortedTrackTags
+-(NSArray*)sortedTrackTags
 {
 	NSSortDescriptor *sortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"count" ascending:NO] autorelease];
 	return [[self.trackTags allObjects] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
 }
 
-- (NSString *)tagsStringWrappedAt:(NSUInteger)numWrapChars
+-(NSString*)tagsStringWrappedAt:(NSUInteger)numWrapChars
 {
 	NSMutableString *result = [NSMutableString string];
 	NSUInteger numChars = 0;
@@ -69,12 +69,12 @@
 	return [result stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
-- (NSString *)tagsString
+-(NSString*)tagsString
 {
 	return [self tagsStringWrappedAt:0];
 }
 
-- (NSString *)genre
+-(NSString*)genre
 {
 	if (!_genre)
 	{

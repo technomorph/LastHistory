@@ -27,7 +27,7 @@
 	NSEntityDescription	*_artistEntity;
 }
 
-- (id)initWithDocument:(LHDocument *)document andUsername:(NSString *)username;
+-(id)initWithDocument:(LHDocument*)document andUsername:(NSString*)username;
 
 @property (readonly) NSString *username;
 
