@@ -13,7 +13,7 @@
 	uint8_t _weekday;
 }
 
-@property (assign) CALayer __weak *layer;
+@property (assign) CALayer *layer;
 
 @property (assign) BOOL hidden;
 
